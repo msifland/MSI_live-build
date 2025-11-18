@@ -1,0 +1,335 @@
+#!/bin/bash
+
+# Function to start download and build.
+function build_map(){
+	shopt -u nocasematch
+	### Log date and time
+	echo -e ${ILCOLOR1}
+	DATE_START=$(date +"%s")
+	echo "Build Start Time:"
+	DATE=$(date +"%m-%d-%y")
+	echo "Date: $DATE"
+	TIME=$(date +"%r")
+	echo "Time: $TIME"
+	echo -e ${ILRESTORE}
+
+	echo
+	sleep 1
+
+	echo "${ILCOLOR1}Current .typ file being used is ${ILCOLOR2}$TYP_FILE.typ
+${ILCOLOR1}Here is a list of available .typ files on your system:${ILRESTORE}"
+	TYP_DIR="$HOME/maps/*.typ"
+	for i in $TYP_DIR; do
+		q="$(basename -- $i)"
+		echo "$q"
+	done
+	sleep 2
+	echo
+	read -t 120 -p "Would you like to change the .typ file used?
+${ILCOLOR1}You have 2 minutes to decide, then running current .typ - ${ILCOLOR2}$TYP_FILE.typ${ILRESTORE}[y/N]: " chng_typ
+	sleep 1
+	echo
+	if [[ $chng_typ =~ ^([yY][eE][sS]|[yY])$ ]]; then
+		read -p "Pick a .typ file from the list above and then type it ${ILCOLOR2}WITHOUT${ILRESTORE} .typ extention: " typ_name
+		if test -f "$HOME/maps/$typ_name.typ"; then
+			TYP_FILE="$typ_name"
+			sleep 1
+			echo
+			echo "${ILCOLOR1}Okay running with ${ILCOLOR3}$TYP_FILE.typ"
+			sleep 1
+		else
+			echo
+			echo "${ILCOLOR1}Files does not exist. Check spelling next time. Continuing with last run .typ file - ${ILCOLOR2}$TYP_FILE.typ"
+			sleep 1
+		fi
+	else
+		echo
+		echo "${ILCOLOR1}Okay, running with current .typ file - ${ILCOLOR3}$TYP_FILE.typ"
+		echo
+		sleep 1
+	fi
+
+	# Check dependencies and download latest versions of mkgmap and mkgmap-splitter
+	sleep 1
+	echo
+	echo "${ILCOLOR1}Downloading latest version of mkgmap and mkgmap-splitter. . .${ILRESTORE}"
+	echo
+	$HOME/scripts/mkgmap-check
+	echo
+	echo
+	$HOME/scripts/mkgmap-splitter-check
+	echo
+	echo
+	sleep 1
+	echo "Checking dependencies. . ."
+	echo "spike" | sudo -S apt install -y python3-pyosmium osmium-tool gmt gmt-dcw gmt-gshhg ghostscript gdal-bin graphicsmagick ffmpeg
+
+	
+	# Downloading maps from geofabrik.
+	cd $HOME/maps
+	echo
+	echo "${ILCOLOR1}Downloading maps...${ILRESTORE}"
+	sleep 1
+	echo
+	sleep 1
+	echo "${ILCOLOR1}Starting process of downloading and building Garmin map of the following Geofarik maps:${ILRESTORE}"
+	tail -n +50 $HOME/scripts/map-my-builder | awk '/#state-/' | sed 's:#state-::g' | sed 's:state-dummy::g' | sed 's:tail.*::g'
+	echo
+	# Error handling variable for file size errors.
+	FILE=""
+	MINSZ=100000
+
+	#state-tennessee
+	wget -O $HOME/maps/downloads/tennessee_latest.osm.pbf http://download.geofabrik.de/north-america/us/tennessee-latest.osm.pbf
+	FILE="$HOME/maps/downloads/tennessee_latest.osm.pbf"
+	ACTSZ=$(wc -c <"$FILE")
+	while [ $ACTSZ -lt $MINSZ ]; do
+		wget -O $HOME/maps/downloads/tennessee_latest.osm.pbf http://download.geofabrik.de/north-america/us/tennessee-latest.osm.pbf
+	done
+	#state-missouri
+	wget -O $HOME/maps/downloads/missouri_latest.osm.pbf http://download.geofabrik.de/north-america/us/missouri-latest.osm.pbf
+	FILE="$HOME/maps/downloads/missouri_latest.osm.pbf"
+	ACTSZ=$(wc -c <"$FILE")
+	while [ $ACTSZ -lt $MINSZ ]; do
+		wget -O $HOME/maps/downloads/missouri_latest.osm.pbf http://download.geofabrik.de/north-america/us/missouri-latest.osm.pbf
+	done
+	#state-illinois
+	wget -O $HOME/maps/downloads/illinois_latest.osm.pbf http://download.geofabrik.de/north-america/us/illinois-latest.osm.pbf
+	FILE="$HOME/maps/downloads/illinois_latest.osm.pbf"
+	ACTSZ=$(wc -c <"$FILE")
+	while [ $ACTSZ -lt $MINSZ ]; do
+		wget -O $HOME/maps/downloads/illinois_latest.osm.pbf http://download.geofabrik.de/north-america/us/illinois-latest.osm.pbf
+	done
+	#state-indiana
+	wget -O $HOME/maps/downloads/indiana_latest.osm.pbf http://download.geofabrik.de/north-america/us/indiana-latest.osm.pbf
+	FILE="$HOME/maps/downloads/indiana_latest.osm.pbf"
+	ACTSZ=$(wc -c <"$FILE")
+	while [ $ACTSZ -lt $MINSZ ]; do
+		wget -O $HOME/maps/downloads/indiana_latest.osm.pbf http://download.geofabrik.de/north-america/us/indiana-latest.osm.pbf
+	done
+	#state-ohio
+	wget -O $HOME/maps/downloads/ohio_latest.osm.pbf http://download.geofabrik.de/north-america/us/ohio-latest.osm.pbf
+	FILE="$HOME/maps/downloads/ohio_latest.osm.pbf"
+	ACTSZ=$(wc -c <"$FILE")
+	while [ $ACTSZ -lt $MINSZ ]; do
+		wget -O $HOME/maps/downloads/ohio_latest.osm.pbf http://download.geofabrik.de/north-america/us/ohio-latest.osm.pbf
+	done
+	#state-west-virginia
+	wget -O $HOME/maps/downloads/west-virginia_latest.osm.pbf http://download.geofabrik.de/north-america/us/west-virginia-latest.osm.pbf
+	FILE="$HOME/maps/downloads/west-virginia_latest.osm.pbf"
+	ACTSZ=$(wc -c <"$FILE")
+	while [ $ACTSZ -lt $MINSZ ]; do
+		wget -O $HOME/maps/downloads/west-virginia_latest.osm.pbf http://download.geofabrik.de/north-america/us/west-virginia-latest.osm.pbf
+	done
+	#state-maryland
+	wget -O $HOME/maps/downloads/maryland_latest.osm.pbf http://download.geofabrik.de/north-america/us/maryland-latest.osm.pbf
+	FILE="$HOME/maps/downloads/maryland_latest.osm.pbf"
+	ACTSZ=$(wc -c <"$FILE")
+	while [ $ACTSZ -lt $MINSZ ]; do
+		wget -O $HOME/maps/downloads/maryland_latest.osm.pbf http://download.geofabrik.de/north-america/us/maryland-latest.osm.pbf
+	done
+	#state-kentucky
+	wget -O $HOME/maps/downloads/kentucky_latest.osm.pbf http://download.geofabrik.de/north-america/us/kentucky-latest.osm.pbf
+	FILE="$HOME/maps/downloads/kentucky_latest.osm.pbf"
+	ACTSZ=$(wc -c <"$FILE")
+	while [ $ACTSZ -lt $MINSZ ]; do
+		wget -O $HOME/maps/downloads/kentucky_latest.osm.pbf http://download.geofabrik.de/north-america/us/kentucky-latest.osm.pbf
+	done
+	#state-virginia
+	wget -O $HOME/maps/downloads/virginia_latest.osm.pbf http://download.geofabrik.de/north-america/us/virginia-latest.osm.pbf
+	FILE="$HOME/maps/downloads/virginia_latest.osm.pbf"
+	ACTSZ=$(wc -c <"$FILE")
+	while [ $ACTSZ -lt $MINSZ ]; do
+		wget -O $HOME/maps/downloads/virginia_latest.osm.pbf http://download.geofabrik.de/north-america/us/virginia-latest.osm.pbf
+	done
+	#state-arkansas
+	wget -O $HOME/maps/downloads/arkansas_latest.osm.pbf http://download.geofabrik.de/north-america/us/arkansas-latest.osm.pbf
+	FILE="$HOME/maps/downloads/arkansas_latest.osm.pbf"
+	ACTSZ=$(wc -c <"$FILE")
+	while [ $ACTSZ -lt $MINSZ ]; do
+		wget -O $HOME/maps/downloads/arkansas_latest.osm.pbf http://download.geofabrik.de/north-america/us/arkansas-latest.osm.pbf
+	done
+	#state-north-carolina
+	wget -O $HOME/maps/downloads/north-carolina_latest.osm.pbf http://download.geofabrik.de/north-america/us/north-carolina-latest.osm.pbf
+	FILE="$HOME/maps/downloads/north-carolina_latest.osm.pbf"
+	ACTSZ=$(wc -c <"$FILE")
+	while [ $ACTSZ -lt $MINSZ ]; do
+		wget -O $HOME/maps/downloads/north-carolina_latest.osm.pbf http://download.geofabrik.de/north-america/us/north-carolina-latest.osm.pbf
+	done
+	#state-south-carolina
+	wget -O $HOME/maps/downloads/south-carolina_latest.osm.pbf http://download.geofabrik.de/north-america/us/south-carolina-latest.osm.pbf
+	FILE="$HOME/maps/downloads/south-carolina_latest.osm.pbf"
+	ACTSZ=$(wc -c <"$FILE")
+	while [ $ACTSZ -lt $MINSZ ]; do
+		wget -O $HOME/maps/downloads/south-carolina_latest.osm.pbf http://download.geofabrik.de/north-america/us/south-carolina-latest.osm.pbf
+	done
+	#state-louisiana
+	wget -O $HOME/maps/downloads/louisiana_latest.osm.pbf http://download.geofabrik.de/north-america/us/louisiana-latest.osm.pbf
+	FILE="$HOME/maps/downloads/louisiana_latest.osm.pbf"
+	ACTSZ=$(wc -c <"$FILE")
+	while [ $ACTSZ -lt $MINSZ ]; do
+		wget -O $HOME/maps/downloads/louisiana_latest.osm.pbf http://download.geofabrik.de/north-america/us/louisiana-latest.osm.pbf
+	done
+	#state-mississippi
+	wget -O $HOME/maps/downloads/mississippi_latest.osm.pbf http://download.geofabrik.de/north-america/us/mississippi-latest.osm.pbf
+	FILE="$HOME/maps/downloads/mississippi_latest.osm.pbf"
+	ACTSZ=$(wc -c <"$FILE")
+	while [ $ACTSZ -lt $MINSZ ]; do
+		wget -O $HOME/maps/downloads/mississippi_latest.osm.pbf http://download.geofabrik.de/north-america/us/mississippi-latest.osm.pbf
+	done
+	#state-alabama
+	wget -O $HOME/maps/downloads/alabama_latest.osm.pbf http://download.geofabrik.de/north-america/us/alabama-latest.osm.pbf
+	FILE="$HOME/maps/downloads/alabama_latest.osm.pbf"
+	ACTSZ=$(wc -c <"$FILE")
+	while [ $ACTSZ -lt $MINSZ ]; do
+		wget -O $HOME/maps/downloads/alabama_latest.osm.pbf http://download.geofabrik.de/north-america/us/alabama-latest.osm.pbf
+	done
+	#state-georgia
+	wget -O $HOME/maps/downloads/georgia_latest.osm.pbf http://download.geofabrik.de/north-america/us/georgia-latest.osm.pbf
+	FILE="$HOME/maps/downloads/georgia_latest.osm.pbf"
+	ACTSZ=$(wc -c <"$FILE")
+	while [ $ACTSZ -lt $MINSZ ]; do
+		wget -O $HOME/maps/downloads/georgia_latest.osm.pbf http://download.geofabrik.de/north-america/us/georgia-latest.osm.pbf
+	done
+	#state-florida
+	wget -O $HOME/maps/downloads/florida_latest.osm.pbf http://download.geofabrik.de/north-america/us/florida-latest.osm.pbf
+	FILE="$HOME/maps/downloads/florida_latest.osm.pbf"
+	ACTSZ=$(wc -c <"$FILE")
+	while [ $ACTSZ -lt $MINSZ ]; do
+		wget -O $HOME/maps/downloads/florida_latest.osm.pbf http://download.geofabrik.de/north-america/us/florida-latest.osm.pbf
+	done
+
+	# Use osmium program to combine the above downloaded maps into one .osm.pbf file. This is needed because of the individual file ID numbers.
+	echo
+	echo "${ILCOLOR1}Combining osm.pbf files using osmium...${ILRESTORE}"
+	sleep 1
+	osmium merge $HOME/maps/downloads/*.osm.pbf -v -O -o $HOME/maps/combine/"$MAP_NAME".osm.pbf
+	cd $HOME/maps/combine
+
+<<comment
+#Commented this out becasue I'm unsure that a conversion to o5m really makes any difference in size or speed
+	# Formatting to .o5m for faster and better processing.
+	echo
+	echo "${ILCOLOR1}Converting .pbf file to .o5m for faster formatting using osmconvert...${ILRESTORE}"
+	sleep 1
+	osmconvert --drop-version $HOME/maps/combine/"$MAP_NAME".osm.pbf -o=$HOME/maps/combine/"$MAP_NAME".o5m
+comment
+
+	# Splitting the file with mkgmap program for managable conversion of size.
+	echo
+	echo "${ILCOLOR1}Splitting file...${ILRESTORE}"
+	sleep 1
+	#mkgmap-splitter $HOME/maps/combine/"$MAP_NAME".o5m --max-nodes=800000 --output=xml
+	# Different ways to run, messes up sometimes, these are run without the osmconvert command above, and with mkgmpa and splitter downloaded directly form website instead of installing with apt. Always get this latest versons this was. See script files "mkgmp-check and mkgmap-splitter-check.
+	java -jar $HOME/maps/splitter/splitter.jar $HOME/maps/combine/"$MAP_NAME".osm.pbf --max-nodes=800000 --output=xml
+
+	# Re-combining all split files into one Garmin .img file.
+	echo
+	echo "${ILCOLOR1}Creating img, this will take a while...${ILRESTORE}"
+	sleep 1
+	#mkgmap --style-file=$HOME/maps/styles/mine  --family-id=2000 --route --gmapsupp *.osm.gz $HOME/maps/my_custom.typ
+	java -jar $HOME/maps/mkgmap/mkgmap.jar --style-file=$HOME/maps/styles/mine  --family-id=2000 --route --gmapsupp *.osm.gz $HOME/maps/"$TYP_FILE".typ
+
+	# Check for completed .img file and move to home/maps folder and the to Garmin device, if connected.
+	if [[ -f $HOME/maps/combine/gmapsupp.img ]]; then
+		echo
+		echo "${ILCOLOR1}Moving gmapsupp.img to completed_maps folder and to Dropbox folder, also renaming to "$MAP_NAME"_gmapsupp.img...${ILRESTORE}"
+		# Nameing and removing previous images in folder "completed_maps".
+		if [[ -f "$HOME/maps/completed_maps/"$MAP_NAME"_gmapsupp.img" ]]; then
+			rm -rf $HOME/maps/completed_maps/"$MAP_NAME"_gmapsupp.img.old
+			mv $HOME/maps/completed_maps/"$MAP_NAME"_gmapsupp.img $HOME/maps/completed_maps/"$MAP_NAME"_gmapsupp.img.old
+			# Renaming creeated image to custom named image and moving to correct directory "completed_maps".
+			mv $HOME/maps/combine/gmapsupp.img $HOME/maps/completed_maps/"$MAP_NAME"_gmapsupp.img
+			sleep 5
+			# Checking for Dropbox folder and copying there.
+			if [[ ! -d $HOME/Dropbox/'Saved from Web'/Custom_Garmin_Maps ]]; then
+				mkdir $HOME/Dropbox/'Saved from Web'/Custom_Garmin_Maps
+			fi
+			rm -rf $HOME/Dropbox/'Saved from Web'/Custom_Garmin_Maps/*.*
+			cp $HOME/maps/completed_maps/"$MAP_NAME"_gmapsupp.img $HOME/Dropbox/'Saved from Web'/Custom_Garmin_Maps/
+		fi
+
+		echo
+		echo "${ILCOLOR1}Checking for Garmin Device. . .${ILRESTORE}"
+		sleep 1
+		if [[ -d "$DEVICE" ]]; then
+			echo "Garming device found. . ."
+			echo
+			sleep 1
+			if [[ -f "$DEVICE"/Garmin/"$MAP_NAME"_gmapsupp.img ]];then
+				echo "${ILCOLOR1}Removing old map from device. . .${ILRESTORE}"
+				rm -rf "$DEVICE"/Garmin/my*.*
+				echo
+				sleep 1
+			fi
+			echo "${ILCOLOR1}Copying new map to Garmin device. . .${ILRESTORE}"
+			rsync --progress --verbose $HOME/maps/completed_maps/"$MAP_NAME"_gmapsupp.img "$DEVICE"/Garmin/"$MAP_NAME"_gmapsupp.img
+		else
+			echo
+			echo "${ILCOLOR1}No Garmin Device found. Copy manually later.${ILRESTORE}"
+		fi		
+		# Only clean up if a gmappsupp.img was created. Leave files for troubleshooting if .img was NOT created.
+		echo
+		sleep 1
+		echo "${ILCOLOR1}Cleaning up files. . .${ILRESTORE}"
+		rm -rf $HOME/maps/downloads/*
+		rm -rf $HOME/maps/combine/*
+		sleep 1
+	else
+		echo
+		echo "${ILCOLOR1}No map file was created, check for errors...${ILRESTORE}"
+	fi
+
+	echo
+	echo "${ILCOLOR1}Finished."
+	sleep 1
+	echo "Build End Time:"
+	DATE=$(date +"%m-%d-%y")
+	echo "Date: $DATE"
+	TIME=$(date +"%r")
+	echo "Time: $TIME"
+	DATE_END=$(date +"%s")
+	DIFF=$(($DATE_END - $DATE_START))
+	echo "It took $(($DIFF / 3600 )) hours $((($DIFF % 3600) / 60)) minutes $(($DIFF % 60)) seconds to build."
+	echo -e "${ILRESTORE}"
+
+	cd $HOME
+	exit
+}
+
+# Dependencies: program mkgmap, osmium. Also a mkgmap, gmt, and mkgmap-splitter folder downloaded from source.
+
+########## Start Process #############
+echo
+echo "${ILCOLOR1}Running My Map Builder for Garmin devices. . .${ILRESTORE}"
+sleep 1
+echo
+# Switching to maps directory.
+cd $HOME/maps
+# Define variables.
+DEVICE="/media/msifland/GARMIN"
+# MAP_NAME should be the name of the .typ file you use.
+TYP_FILE="velo"
+MAP_NAME="my_$TYP_FILE"
+echo "${ILCOLOR1}Checking directories and Cleaning up files...${ILRESTORE}"
+echo
+# Create directories if they don't exist.
+if [[ ! -d "$HOME/maps" ]]; then
+	mkdir "$HOME/maps"
+fi
+if [[ ! -d "$HOME/maps/completed_maps" ]]; then
+	mkdir "$HOME/maps/completed_maps"
+fi
+if [[ ! -d "$HOME/maps/combine" ]]; then
+	mkdir "$HOME/maps/combine"
+else
+	rm -rf $HOME/maps/combine/*
+fi
+if [[ ! -d "$HOME/maps/downloads" ]]; then
+	mkdir "$HOME/maps/downloads"
+else
+	rm -rf $HOME/maps/downloads/*
+fi
+
+# Call build_map function to start the process.
+build_map

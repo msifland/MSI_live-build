@@ -1,0 +1,85 @@
+#!/bin/bash
+# This is a blank bash script document.
+# Put your code below this line.
+echo
+echo
+echo "This scripts is going to format a usb drive or partition. . ."
+echo
+echo
+sleep 1
+read -p "Would you like to continue[y/n]: " yn_con
+if [[ ! $yn_con = "y" ]]; then
+	exit
+fi
+function start(){
+	# Show blocks on device and ask what block you would like to use.
+	lsblk
+	echo
+	read -p "What dev block would you like to format? (ex. /dev/sdb, /dev/sda3, /dev/sdc, /dev/sdd) Look above for reference. " BLCK
+	echo
+	DEVBLOCK="$BLCK"
+	read -p "You have chosen $DEVBLOCK. Is this correct[y/n]? " YN
+	echo
+
+	# Check if block exists.
+	if [[ -b $DEVBLOCK ]]; then
+		if [[ "$YN" =~ ^([yY][eE][sS]|[yY])$ ]]; then
+			read -p "Would you like to label the new device? " LBL_YN
+			if [[ "$LBL_YN" =~ ^([yY][eE][sS]|[yY])$ ]]; then
+				read -p "What would you like to lable it?(ex. MSI_ARCH) " LBL
+			fi
+			sleep 1
+			echo
+			echo "Ok formatting $DEVBLOCK. . ."
+			echo
+			sleep 1
+			# Reset usb ports.
+			sudo /home/msifland/scripts/reset-usb
+			for blk in $(df -h | grep "$DEVBLOCK" | awk '{ print $1 }'); do
+				sudo umount $blk
+			done
+			while [[ ! -b $DEVBLOCK ]]; do
+				echo "Waiting for usb devices to be reset. . ."
+				sleep 5
+			done
+			# Wipe
+			sudo wipefs --all --force $DEVBLOCK
+			# Format to vfat or ext4 and lable and show progress.
+			echo
+			read -p "What filesystem type would you like to format to(ext4, ext2, vfat, etc.)? " TYP
+			sudo mkfs -t "$TYP" -L "$LBL" $DEVBLOCK | sudo pv -trebI
+			sudo hdparm -r0 $DEVBLOCK
+			echo
+			sleep 1
+			sudo $HOME/scripts/reset-usb
+			while [[ ! -b $DEVBLOCK ]]; do
+				echo "Waiting for usb devices to be reset. . ."
+				sleep 2
+			done
+			echo
+		else
+			# Error handling if mistake was made. Option to restart.
+			read -p "Ok not formatting $DEVBLOCK. Would you like to try a diffent drive? " DIFFDRV
+			if [[ "$DIFFDRV" =~ ^([yY][eE][sS]|[yY])$ ]]; then
+				echo
+				start
+				echo
+				sleep 1
+			else
+				echo
+				echo "Ok, exiting now. . ."
+				echo
+				sleep 1
+			fi
+		fi
+	else
+		# Option to restart.
+		echo $DEVBLOCK " does not exist. Try another. . ."
+		echo
+		start
+	fi
+}
+
+# Call main function.
+start
+exit

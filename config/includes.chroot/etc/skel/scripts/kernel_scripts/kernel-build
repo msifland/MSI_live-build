@@ -1,0 +1,164 @@
+#!/bin/bash
+# This is a blank bash script document.
+# Put your code below this line.
+# Removing old files and creating new ones.
+echo 'spike' | sudo -S -v
+# This function allows version number comparison.
+function version_gt() { 
+	test "$(printf '%s\n' "$@" | sort -V | head -n 1)" != "$1"; 
+}
+
+WORK_DIR="$HOME/tmp/kernel_build"
+STOR_DIR="$HOME/Dropbox/Linux/kernel_storage"
+
+# Change to dir and remove any old files, create variables and files.
+if [[ ! -d $HOME/tmp ]]; then
+	mkdir $HOME/tmp
+fi
+cd $HOME/tmp
+
+if [[ -f *.tar.xz ]]; then
+	rm -rf *.tar.xz
+fi
+if [[ ! -d $WORK_DIR ]]; then
+	mkdir "$WORK_DIR"
+fi
+if [[ ! -d $STOR_DIR ]]; then
+	mkdir $STOR_DIR
+fi
+cd $WORK_DIR
+
+rm -fr $WORK_DIR/*.deb
+rm -rf $WORK_DIR/*.deb.*
+rm -rf $WORK_DIR/linux-upstream*.*
+echo
+
+KERN_SOURCE="https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux.git"
+
+# Get kernel name without extra numbers at the end. The awk section here is nice in that everything after the '-' is deleted.
+RNNING=$(uname -r | awk -F '\\-' '{print $1}')
+echo "${ILCOLOR2}-----> Currently running $RNNING" | pv -qL 50
+sleep 1
+
+# Get and format websit info. Grepping "latest_link" is in page source for latest download. The rest is of this is for formatting.
+GET=$(wget -qO- https://www.kernel.org | grep -A1  "latest_link\">" | grep "<a href=" | sed -e 's:<a href="::' | sed -e 's:">*::' | sed -e "s:tar.xz.*:tar.xz:" | sed "s/^[ \t]*//")
+GET_VER=$(echo $GET | sed -e "s:.*linux-::" | sed -e "s:.tar.xz::")
+echo
+echo "Newest stable kernel version available is ${ILCOLOR2}$GET_VER${ILRESTORE}"
+sleep 1
+
+function install_kern(){
+	# Calling function to check versions.
+if version_gt "$GET_VER" "$RNNING"; then
+	# Added this because of automation this stops the screen for a response when called with the script kern-update-timer.
+	# Start timing process
+	tm_wh_start=$(date +"%s")
+
+	echo "${ILCOLOR2}Checking dependencies. . .${ILRESTORE}"
+	echo 'spike' | sudo -S apt build-dep -y linux
+
+	if [[ ! -d $WORK_DIR/linux ]]; then
+		cd $WORK_DIR
+		git clone $KERN_SOURCE
+		cd $WORK_DIR/linux
+		git switch linux-rolling-stable
+	else
+		cd $WORK_DIR/linux
+		git switch linux-rolling-stable
+		git stash
+		git fetch
+		git pull
+		echo
+	fi
+	CURR_STAB=$(ls /boot | grep "config" | sort -g -r | head -1)
+	echo "${ILCOLOR2}Copying current STABLE kernel - ${ILRESTORE}$CURR_STAB. . ."
+	cp /boot/$CURR_STAB .config
+	echo
+
+	echo "${ILCOLOR2}Append to Kernel Number for Local Version name.
+    Current running kernel:${ILRESTORE} $(uname -r)"
+	CONF_VER=$(grep 'CONFIG_LOCALVERSION="' .config | cut -d'=' -f2 | sed 's:"::g')
+	echo
+	echo "${ILCOLOR2}Local version from .config file:${ILRESTORE} $CONF_VER"
+	echo
+	
+	echo "Adding custom tag '-msi' to kernel name. "
+	LOC_VER="msi"
+	sleep 3
+		# If using kernel .config from local machine and it already has an appended version, this captures that appended version to add to initramfs update below, otherwise modules folder name will not match kernel name.
+	scripts/config --disable DEBUG_INFO
+
+	if [[ "$LOC_VER" != "" ]]; then
+		sed -i "/CONFIG_LOCALVERSION=/c\CONFIG_LOCALVERSION=\"-$LOC_VER\"" .config
+	fi
+	if [[ "$LOC_VER" = "0" ]]; then
+		sed -i "s:CONFIG_LOCALVERSION=.*:CONFIG_LOCALVERSION=\"\":g" .config
+	fi
+		
+	echo
+	echo "${ILCOLOR2}Removing \"CONFIG_SYSTEM_TRUSTED_KEYS=\" from .config${ILRESTORE}"
+	if grep -w "^CONFIG_SYSTEM_TRUSTED_KEYS=" .config; then
+		sed -i 's:CONFIG_SYSTEM_TRUSTED_KEYS=:#CONFIG_SYSTEM_TRUSTED_KEYS=:g' .config
+	fi
+
+	# Build, remove uneeded files, install.
+	# oldefconfig pulls current options from .config file and automatically answers new options without prompt.
+	make olddefconfig
+	make -j `getconf _NPROCESSORS_ONLN` deb-pkg
+	echo 'spike' | sudo -S make modules_install
+
+	# This variable is here before we change out of this directory, for initramfs update format below.
+	CONF_VER_WRT=$(grep 'CONFIG_LOCALVERSION="' .config | cut -d'=' -f2 | sed 's:"::g')
+
+	cd ..
+	echo 'spike' | sudo -S dpkg -i *.deb
+		
+	# Get .config version for next step.
+	echo 'spike' | sudo -S update-initramfs -c -t -k "$GET_VER$CONF_VER_WRT"
+	echo 'spike' | sudo -S update-grub
+	sleep 1
+	# End timing process
+	tm_wh_end=$(date +"%s")
+	tm_wh_diff=$(( $tm_wh_end - $tm_wh_start))
+	echo
+	echo "${ILCOLOR2}It took $(($tm_wh_diff / 3600 )) hours $((($tm_wh_diff % 3600) / 60)) minutes $(($tm_wh_diff % 60)) seconds to run whole process.${ILRESTORE}"
+	sleep 1
+		
+	# This section is for if you are using nvidia drivers.
+	# Build nvidia-kernel at boot
+	#3if ! dpkg --get-selections | awk '{print $1}' | grep -wq "module-assistant"; then
+	#	echo 'spike' | sudo -S apt -y install module-assistant
+	#fi
+	#echo
+	#echo "On reboot, nvidia drivers will be built and installed." 
+	#$HOME/scripts/kernel_scripts/nvidia-build
+	echo
+	echo "Running script: get-kernel-firmware. . ."
+	$HOME/scripts/kernel_scripts/get-kernel-firmware
+	sleep 1
+else
+	echo "${ILCOLOR2}You already have the latest kernel.${ILRESTORE}"
+	echo
+	sleep 2
+fi
+}
+install_kern
+# Remove old files.
+# Create kernel storage directory.
+if [[ ! -d $STOR_DIR ]]; then
+	mkdir $STOR_DIR
+fi
+# Error handling if directory exists but is empty. Using ls instead of [[ -f ]] for wildcards.
+if [[ $(ls $STOR_DIR) ]]; then
+	ls $STOR_DIR/* -t | tail -n +13 | xargs rm -f
+fi
+if [[ -d $WORK_DIR ]]; then
+	if ls $WORK_DIR/*.deb > /dev/null 2>&1; then
+		cp $WORK_DIR/*.deb $STOR_DIR
+	fi
+fi
+sleep 1
+echo
+echo "Rebooting system in 30 seconds. . ."
+sleep 30
+sudo reboot

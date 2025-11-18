@@ -1,0 +1,8 @@
+Open a terminal.
+Navigate to this directory.
+Make sure you have the apps 'make' and 'cmake' installed, if not:
+	sudo apt install make cmake
+
+Type:
+	make
+	sudo make install

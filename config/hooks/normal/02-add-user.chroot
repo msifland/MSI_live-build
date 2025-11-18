@@ -1,0 +1,4 @@
+#!/bin/sh
+adduser --disabled-password --gecos "" msifland
+echo "msifland:spike" | chpasswd
+usermod -aG sudo msifland

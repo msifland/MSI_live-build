@@ -1,0 +1,42 @@
+[sudo] password for msifland: 
+Checking dependencies. . .
+
+clamav found.
+Would you like to update virus definitions first(sudo freshclam)[y/n]? [1;38;5;125m
+Ok, not updating virus definitions now. . .
+[0m
+[1;38;5;125m
+Removing old build logs. . .
+
+[0m
+[1;38;5;125m
+Start Time:
+Date: 11-17-25
+Time: 02:15:16 AM
+
+Scanning: 
+/
+
+
+Excluding:
+/home/msifland/roms
+/home/msifland/.local/share/Trash
+/home/msifland/Modules-Apps
+/home/msifland/infections
+/home/msifland/GarminExpress
+/home/msifland/tmp/Variety_Images
+/home/msifland/.wine
+/root/.local/share/Trash
+/media
+/sys
+/dev
+/proc
+*metasploit-framework.*
+
+
+Running clamscan to scan for viruses. . .
+
+LibClamAV Warning: cli_scanxz: decompress file size exceeds limits - only scanning 105906176 bytes
+LibClamAV Warning: Bytecode run timed out in interpreter after 8565000 opcodes
+LibClamAV Warning: Bytecode 39 failed to run: Exceeded time limit
+LibClamAV Warning: cli_scanxz: decompress file size exceeds limits - only scanning 105906176 bytes

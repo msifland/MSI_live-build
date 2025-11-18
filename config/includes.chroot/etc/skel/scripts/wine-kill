@@ -1,0 +1,9 @@
+#!/bin/bash
+# This is a blank bash script document.
+# Put your code below this line.
+echo
+echo "Killing all wine associated .exe files. . ."
+echo
+sleep 1
+
+ps ax | egrep "*.exe|*exe]" | awk '{ print $1 }' | xargs kill -9

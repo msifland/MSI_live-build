@@ -1,0 +1,171 @@
+#!/bin/bash
+
+echo
+echo "${ILCOLOR1}This scripts allows you to build a custom state, states, or regions map for your garmin device...${ILRESTORE}"
+sleep 1
+
+# Create directories if they don't exist.
+if [[ ! -d "$HOME/maps" ]]; then
+	mkdir "$HOME/maps"
+fi
+if [[ ! -d "$HOME/maps/combine" ]]; then
+	mkdir "$HOME/maps/combine"
+else
+	rm -rf $HOME/maps/combine/*
+fi
+if [[ ! -d "$HOME/maps/downloads" ]]; then
+	mkdir "$HOME/maps/downloads"
+else
+	rm -rf $HOME/maps/downloads/*
+fi
+if [[ ! -d "$HOME/maps/completed_maps" ]]; then
+	mkdir "$HOME/maps/completed_maps"
+fi
+if [[ ! -d "$HOME/maps/tmp" ]]; then
+	mkdir "$HOME/maps/tmp"
+else
+	echo
+	rm -rf $HOME/maps/tmp/*
+fi
+
+cd $HOME/maps
+TYP_FILE="xgarmin-buildings"
+
+# Check dependencies and download latest versions of mkgmap and mkgmap-splitter
+sleep 1
+echo
+echo "${ILCOLOR1}Downloading latest version of mkgmap and mkgmap-splitter. . .${ILRESTORE}"
+echo
+$HOME/scripts/mkgmap-check
+echo
+echo
+$HOME/scripts/mkgmap-splitter-check
+echo
+echo
+echo "${ILCOLOR1}Checking dependencies for java, osmium-tool, and python3-pyosmium. . .${ILRESTORE}"
+if ! dpkg --get-selections | grep -q "osmium-tool"; then
+	echo "spike" | sudo -S apt install osmium-tool
+else
+	echo "osmium-tool already installed."
+fi
+sleep 1
+if ! dpkg --get-selections | grep -q "python3-pyosmium"; then
+	echo "spike" | sudo -S apt install python3-pyosmium
+else
+	echo "python3-pyosmium already installed."
+fi
+sleep 1
+if ! dpkg --get-selections | grep -q "jdk"; then
+	echo "spike" | sudo -S apt install default-jdk
+else
+	echo "java already installed."
+fi
+sleep 1
+
+echo
+echo -n "Type the State name, or names that you would like to build? If typing multiple state put a space in between each state. "
+read STATE
+
+### Log date and time
+echo -e ${ILCOLOR1}
+DATE_START=$(date +"%s")
+echo "Build Start Time:"
+DATE=$(date +"%m-%d-%y")
+echo "Date: $DATE"
+TIME=$(date +"%r")
+echo "Time: $TIME"
+echo
+sleep 1
+echo -e ${RESTORE}
+# Create file to hold states listed above.
+STATES_FILE="$HOME/maps/tmp/states"
+if [[ ! -f "$STATES_FILE" ]]; then
+	touch $STATES_FILE
+fi
+echo $STATE > $STATES_FILE
+# Replace spaces with with newlines in file.
+sed -i 's/\s\+/\n/g' $STATES_FILE
+# Loop through for each state listed in file and download.
+while IFS="" read -r p || [ -n "$p" ]; do 
+	STATE="$p"
+sleep 1
+
+echo
+echo "${ILCOLOR1}Downloading map file: ${ILRESTORE}"$STATE
+sleep 1
+if [[ $STATE = us* ]]; then
+	URL="http://download.geofabrik.de/north-america/"
+else
+	URL="http://download.geofabrik.de/north-america/us/"
+fi
+
+wget -O $HOME/maps/downloads/"$STATE"_latest.osm.pbf $URL/$STATE-latest.osm.pbf
+echo
+done < $STATES_FILE
+
+# Download cities file and bounds file.
+wget -O $HOME/maps/downloads/US.zip http://download.geonames.org/export/dump/US.zip
+wget -O $HOME/maps/downloads/bounds-latest.zip http://osm.thkukuk.de/data/bounds-latest.zip
+
+# Merge and split files.
+echo
+echo "${ILCOLOR1}Splitting file...${ILRESTORE}"
+sleep 1
+# Format $STATES variable for nameing .img file, with dashes in between each state.
+STATE=$(cat "$STATES_FILE" | sed -n -e 'H;${x;s/\n/-/g;s/^-//;p;}')
+# Add below command to above, removing sed command, for no spaces or dashes in between each state name. 
+#tr -d '[:space:]')
+osmium merge $HOME/maps/downloads/*.osm.pbf -v -O -o $HOME/maps/combine/"$STATE".osm.pbf
+#Move files to combine folder and split to include city data
+mv $HOME/maps/downloads/*.zip $HOME/maps/combine/
+cd $HOME/maps/combine
+java -jar $HOME/maps/splitter/splitter.jar --mapid=77770001 --output=xml --geonames-file=US.zip $HOME/maps/combine/*.osm.pbf
+
+# Create Garmin image file.
+echo
+echo "${ILCOLOR1}Creating img with $TYP_FILE, this will take a while. . .${ILRESTORE}"
+sleep 1
+java -jar $HOME/maps/mkgmap/mkgmap.jar --style-file=$HOME/maps/styles/mine  --family-id=7777 --family-name=My-Maps --series-name=My-Maps-Tennessee --area-name=Tennessee --product-id=1 --country-name="United States" --country-abbr=USA --product-id=1 --index --bounds=bounds-latest.zip --route --housenumbers --process-destination --process-exits --gmapi -c template.args --gmapsupp *.osm.gz $HOME/maps/"$TYP_FILE".typ 
+echo
+
+# Look for image file and move it and rename it.
+if [[ -f $HOME/maps/combine/gmapsupp.img ]]; then
+	echo
+	echo "${ILCOLOR1}Moving gmapsupp.img to completed_maps folder and renaming to $STATE_gmapsupp.img...${ILRESTORE}"
+	sleep 1
+	if [[ -f $HOME/maps/completed_maps/"$STATE"_latest_gmapsupp.img.old ]]; then
+		rm -rf $HOME/maps/completed_maps/"$STATE"_latest_gmapsupp.img.old
+	fi
+	if [[ -f "$HOME/maps/completed_maps/"$STATE"_latest_gmapsupp.img" ]]; then
+		mv $HOME/maps/completed_maps/"$STATE"_latest_gmapsupp.img $HOME/maps/completed_maps/"$STATE"_latest_gmapsupp.img.old
+	fi
+	mv $HOME/maps/combine/gmapsupp.img $HOME/maps/completed_maps/"$STATE"_latest_gmapsupp.img
+	sleep 1
+
+	# Cleaan up files only if a gmap image was created. Keep for troublshooting if .img was NOT created.
+	echo
+	echo "${ILCOLOR1}Cleaning up files. . .${ILRESTORE}"
+	sleep 1
+	rm -rf $HOME/maps/combine/*
+	rm -rf $HOME/maps/downloads/*
+	rm -rf $HOME/maps/tmp/*
+else
+		echo
+		echo "${ILCOLOR1}No map file was created, check for errors...${ILRESTORE}"
+fi
+
+echo
+echo "${ILCOLOR1}Finished."
+sleep 1
+echo "Build End Time:"
+DATE=$(date +"%m-%d-%y")
+echo "Date: $DATE"
+TIME=$(date +"%r")
+echo "Time: $TIME"
+DATE_END=$(date +"%s")
+DIFF=$(($DATE_END - $DATE_START))
+echo "It took $(($DIFF / 3600 )) hours $((($DIFF % 3600) / 60)) minutes $(($DIFF % 60)) seconds to build."
+echo -e "${RESTORE}"
+
+cd $HOME
+exit

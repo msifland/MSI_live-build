@@ -1,0 +1,107 @@
+#!/bin/bash
+# This is a blank bash script document.
+# Put your code below this line.
+
+echo
+echo "Updating apt and installing initial applications. . ."
+echo
+sleep 1
+apt update
+apt upgrade
+apt install -y ncurses-term xterm
+export TERM=xterm-color
+
+echo
+echo "Installing makedev and /dev generic files. . ."
+echo
+sleep 1
+apt install -y makedev
+cd /dev
+MAKEDEV generic
+cd /
+
+echo
+echo "Setting up time zones and locales. . ."
+echo
+sleep 1
+apt install -y ca-certificates
+dpkg-reconfigure tzdata
+apt install -y locales
+dpkg-reconfigure locales
+apt install -y wget nano pv git screenfetch jshon dialog tasksel
+
+echo
+echo "Installing linux-image and firmware files. . ."
+echo
+sleep 1
+LX_IMG=$(wget -qO- https://packages.debian.org/testing/linux-image-amd64 | grep "linux-image" | sort -V | head -1 | sed -e 's:.*eye/::' -e 's:">.*::')
+apt install -y "$LX_IMG"
+apt install -y firmware-linux firmware-linux-free firmware-linux-nonfree firmware-misc-nonfree
+
+echo
+echo "Using tasksel to install the rest of the system. . ."
+echo
+sleep 1
+dpkg --configure -a
+tasksel
+dpkg --configure -a
+
+echo
+echo "Entering fstab entry for new install. . ."
+echo
+sleep 1
+fstab_entry=$(blkid -s UUID | grep "$part_name" | sed -e 's#.*: ##' | sed 's:"::g')
+echo "##### msifland custom install #####" > /etc/fstab
+echo "$fstab_entry    /    ext4    defaults    0    1" >> /etc/fstab
+echo "" >> /etc/fstab
+echo "/dev/sr0    /media/cdrom0    udf,iso9660 user,noauto    0    0" >> /etc/fstab
+
+echo
+echo "Setting up root password and new user. . ."
+echo
+sleep 2
+dialog --inputbox "Enter root password: " 10 50 2>new_psswrd.txt
+new_psswrd=$(<new_psswrd.txt)
+{ echo $new_psswrd; echo $new_psswrd; } | passwd
+sleep 2
+dialog --inputbox "Type a new user name: " 10 50 2>usrnme.txt
+dialog --inputbox "Type the user name's password: " 10 50 2>usrnme_psswrd.txt
+usrnme=$(<usrnme.txt)
+usrnme_psswrd=$(<usrnme_psswrd.txt)
+{ echo $usrnme_psswrd; echo $usrnme_psswrd; } | adduser $usrnme
+
+echo
+echo "Installing generic firmware files. . ."
+echo
+sleep 1
+
+echo
+mkdir /firm_work
+cd /firm_work
+wget http://cdimage.debian.org/cdimage/unofficial/non-free/firmware/testing/current/firmware.tar.gz
+mkdir firmware && tar -C firmware -xvf firmware.tar.gz
+cd firmware
+dpkg -i *.deb
+cd /
+rm -rf /firm_work
+
+
+echo
+echo "Finishing up installation and installing final apps. . ."
+echo
+sleep 1
+apt --fix-broken -y install
+dpkg --configure -a
+apt update
+apt upgrade -y
+apt purge mate-screensaver
+apt autoremove
+apt install -y conky aircrack-ng curl gparted software-properties-common hdparm xscreensaver xscreensaver-data-extra lightdm lightdm-settings slick-greeter variety mate-applets mate-desktop-environment-extras chromium genisoimage net-tools numlockx aptitude
+apt update
+apt upgrade -y
+apt autoremove
+rm -rf /work
+
+DEBIAN_FRONTEND=noninteractive apt -y install grub2
+
+exit

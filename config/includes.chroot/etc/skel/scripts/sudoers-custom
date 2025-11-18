@@ -1,0 +1,5 @@
+#!/bin/bash
+
+sed -i "s:---user---:$USER:g" $HOME/scripts/sudoers_custom
+$HOME/scripts/sudoers_custom
+sed -i "s:$USER:---user---:g" $HOME/scripts/sudoers_custom

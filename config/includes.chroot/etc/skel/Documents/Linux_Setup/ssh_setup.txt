@@ -1,0 +1,50 @@
+-Install openssh
+	pac openssh
+
+-Install ssh app on other device, puTTY, juice, etc.
+
+-Setup ports to run on
+	sudo pluma /etc/ssh/sshd_config
+	-Uncommnet Port 22 line, and change port number, or leave Port 22 and add another port below it(see below). Set below 1024 for securest ports. Less secure ports are from 60,000 to 61,000. To find a port that isn't being used, open terminal and type:
+		netstat -ltu
+		-Pick a port that is not on this list.
+	Port 22
+	Port 314
+	Port 315
+	Port 316
+	Port 31400
+	Port 31401
+	Port 31402
+	Port 880
+	Port 881
+	Port 882
+	Port 60314
+	Port 60315
+	Port 60316
+
+	-Uncomment line: PermitRootLogin prohibit-password. Make sure all other lines in this section are commented out.
+	-If you want x11 forwaring, then uncomment: X11Forwarding no, and change "no" to "yes"
+	-Add this line to end of file: AllowUsers msifland
+	-Save file and restart and make sure ssh is running on start up.
+		sudo systemctl stop sshd
+		sudo systemctl enable sshd
+		sudo systemctl start sshd
+	-Now run:
+		netstat -ltu
+		-Look for the port you just added to your sshd_config file to make sure it is now open and listening.
+
+-Now setup port forwarding on router.
+	-Open wireless router settings in webpage.
+	-Scroll down to port forwarding.
+	-Add new SecureShell, port number that you put in sshd_config file. IP should be that which shows as your Internal IP. Type this in terminal:
+		ifconfig OR ip addr show
+		-Depending if you are on hardline or wireless look for this: inet 192.168.2.10
+		-Use that.
+
+-If you have a firewall, then allow ports you've chosen and ssh services. On firewall-config app click runtime dropdown to permanent.
+
+-Once you have set up puTTy on windows, also download xming. Open xming-lauch and got through steps leave everything as default and save configuration.
+-In putty, you have to go to SSH/X11 and check the  box to allow x11 forwarding. Leave all other fields blank. If not working you can try typing "localhost:0.0" in "X display location" field.
+
+
+

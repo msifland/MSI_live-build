@@ -1,0 +1,254 @@
+-To install linux on to a flash drive, simply download the live.iso distro you want, boot into it and insert you flash drive to install to and got through the install process.
+	IMPORTANT: INSTALL GRUB TO /dev/sdX(usb drive), not to /dev/sda(main hard drive)
+-Then reboot to main machine and reinstall grub on usb:
+	sudo apt install grub(2) /dev/sdX
+	sudo grub-install /dev/sdX
+	sudo update-grub /dev/sdX
+
+	-If not, boot and in grub rescue:
+		ls
+			shows: (hd0),(hd0,msdos1)(hd0,msdos2)
+			Pick correct one.
+		set prefix=(hd0,msdos1)/boot/grub
+			If wrong one, error will display.
+		insmod normal
+		normal
+	-Should reboot to OS.
+	-Open terminal and type:
+		lsblk
+			to see what partition to install to.
+		sudo update-grub
+		sudo grub-install /dev/sdX
+	-Reboot to usb.
+	
+-If not, grub rescue
+	-Boot back into live cd, open terminal and type:
+		sudo su
+	-Mount your normal system partition. X is the drive letter. Y is the partition number:
+	-Substitute the correct partition: sda1, sdb5, etc.
+		mount /dev/sdXY /mnt
+	-Example 1: mount /dev/sda1 /mnt
+	
+	-Mount the critical virtual filesystems. Run the following as a single command:
+		for i in /dev /dev/pts /proc /sys /run; do mount -B $i /mnt$i; done
+		
+	-Chroot into your normal system device:
+		chroot /mnt
+		
+	-Reinstall GRUB 2 (substitute the correct device with sda, sdb, etc. Do not specify a partition number):
+		grub-install /dev/sdX
+		
+	-Recreate the GRUB 2 menu file (grub.cfg)
+		update-grub
+		
+	-Exit chroot and Reboot.
+		exit
+		sudo reboot
+
+	-After rebooting firware files may need to be installed. 
+		-Download firmware from: 
+			http://cdimage.debian.org/cdimage/unofficial/non-free/firmware/<<<<<<distro>>>>>>/current/
+		-Download all three packages from here:
+			https://packages.debian.org/search?keywords=firmware-linux
+		-Put all those files into one folder and install them.
+			cd <directory with files>
+			sudo dpkg -i *.deb
+	-Keep these file for reinstalling when running usb-linux on different systems and reinstalling these get you the drivers you need for each system.
+______________________________________________________________________
+####################################
+----This is examples of a working grub for adding multiple iso's on a flashdrive that has a working linux distro on it. This is just the 40_custom file. Below this section are instructions for getting the correct iso's and different formats fro different distros.
+
+-Open this file(if it doesn't exist, then create it and make sure permissions are set to executable):
+	sudo subl /etc/grub.d/40_custom
+	-Insert this into the file:
+
+#!/bin/sh
+exec tail -n +3 $0
+# This file provides an easy way to add custom menu entries.  Simply type the
+# menu entries you want to add after this comment.  Be careful not to change
+# the 'exec tail' line above.
+
+menuentry "Debian Installer Netinst" {
+	# Format for Debian Live Netinst(Install only)
+	insmod part_msdos
+	insmod ext2
+	set root='(hd0,msdos1)'
+    linux /home/msifland/iso/installer/vmlinuz
+    initrd /home/msifland/iso/installer/initrd.gz
+}
+
+menuentry "Kali-Linux-7-8-19" {
+	# Format for Ubuntu based
+	set root='(hd0,4)'
+	set isofile="/home/msifland/iso/kali-linux-2019.2-amd64.iso"
+	loopback loop $isofile
+	linux (loop)/live/vmlinuz-4.19.0-kali4-amd64 boot=live findiso=$isofile iso-scan/filename=$isofile noprompt noeject
+	initrd (loop)/live/initrd.img-4.19.0-kali4-amd64
+}
+
+menuentry "Parrot Linux" {
+	# Format for Debian based
+	set isofile="/home/msifland/iso/MY_Parrot-security-4.2.2_amd64.iso"
+	loopback loop $isofile
+	linux (loop)/live/vmlinuz-4.18.0-parrot8-amd64 boot=live findiso=$isofile iso-scan/filename=$isofile
+	initrd (loop)/live/initrd.img-4.18.0-parrot8-amd64
+}
+
+menuentry "Mate 18.10 Live-ISO" {
+	# Format for Ubuntu based
+	set isofile="/home/msifland/iso/ubuntu-mate-18.10-beta-desktop-amd64.iso"
+	loopback loop $isofile
+	linux (loop)/casper/vmlinuz boot=casper iso-scan/filename=$isofile noprompt noeject
+	initrd (loop)/casper/initrd
+}
+
+
+		-A few things to make note of here on this entry.
+			1. The title of what you want it to say is the first line in quotes.	
+			2. The second line sets the path of the file you have on your system. It will boot straight from the .iso
+			3. The third line is what mounts the .iso.
+			4. The fourth and fifth lines tells it what to look for inside the .iso file. You may have to open the .iso file to see the file names and make sure the are correct. in peticular the 'vmlinuz' and 'initrd.lz' files.
+
+		-After adding this to the file and saving it, open terminal and run:
+			sudo grub-mkconfig
+				-Let it generate, it will take a couple minutes.
+			 	-Open /boot/grub/grub.cfg and remove entries not needed. Usually stuff between 30_os_prober. Also make sure that 40_custom entry is there as well, usually toward the bottom.
+		-Then your menu entry should be in the grub menu and should boot to a live cd environment.
+_________________________________________________________________________
+--- To disable your usb-system probing other drive for OS's and adding them to your grub menu, add this to /etc/default/grub:
+	# Uncomment to enable probing other drives
+	GRUB_DISABLE_OS_PROBER=true
+_________________________________________________________________________
+-To install a grub entry for and live.iso install onto the same drive:
+	-Download live.iso of choice, recommend 'non-free' images as they will have neccesary firmware for wifi and monitors.
+	-Put it into a folder on the main usb linux install /home/msifland/<some_folder>/
+	-Then open this file:
+		sudo subl /etc/grub.d/grub.cfg
+	Add this to the bottom of the file:
+
+---For Debian Live.iso Live environment only, no install.
+### Customer Entry ###
+exec tail -n +3 $0
+
+menuentry "Debian Live(no install)" {
+		set isofile="/home/msifland/iso/debian-live-9.5.0-amd64-mate.iso"
+        # Not sure this line is needed here: set root='(hd0,msdos1)'
+		loopback loop (hd0,msdos1)$isofile
+        linux (loop)/live/vmlinuz-4.9.0-7-amd64 boot=live iso-scan/filename=$isofile findiso=$isofile
+        initrd (loop)/live/initrd-4.9.0-7-amd64
+}
+### End Custom Entry ###
+_________________________________________________________________________
+---For Debian installer
+-Download full live image or net install(small cd's or usb sticks.) image from here:
+	https://www.debian.org/distrib
+	-Can NOT use non-free images because of the next hd-media files to download. There is a workaround for using non-free custom below.
+-Check name and version, and download hd-media initrd.gz and vmlinuz from same name as above from here:
+	http://http.us.debian.org/debian/dists/<<<<<distro>>>>>/main/installer-amd64/current/images/hd-media/
+-Download firmware from: 
+	http://cdimage.debian.org/cdimage/unofficial/non-free/firmware/<<<<<<distro>>>>>>/current/
+	-See below method to install firware files into .iso
+-Download all three packages from here:
+	https://packages.debian.org/search?keywords=firmware-linux
+-Put the initrd.gz and vmlinuz files in a folder on USB debian install: /home/msifland/iso/
+-Put the firmware files in: /home/msifland/iso/firmware
+-Put the other firmware files in /home/msifland/iso/firmware(firmware-linux, firmware-linux-free, firmware-linux-nonfree)
+-Add the entry below then next set of instructions to /boot/grub/grub.cfg for booting.
+________________________________________________________________________
+----(Preferred method for firmware files) for non-free firmware custom .iso netinst file------
+-After downloading netinst or live image, extract .iso contents to folder.
+-Add files from firmware folder into the newly extracted iso folder.
+-Run script 'gen-iso' and follow instructions.
+-Or run this command with proper file paths and names:
+	genisoimage -o <ISO_NM.iso> -b isolinux/isolinux.bin -c isolinux/boot.cat -no-emul-boot -boot-load-size 4 -boot-info-table -J -R -V -D <ISO_PTH>
+
+-Rename file if needed and put in folder /home/msifland/iso/<MY_DEB>.iso
+	-This will give you the non-free firmware without having to do the following steps.
+________________________________________________________________________
+-------------------------------------------------------------------------
+----Skip this if using custom iso from step above.
+-After booting run initial startup and go through steps and do full scan for .iso image.
+-Select correct .iso image in folder listed above.
+-Menu will ask for firmware disk to be inserted at this point.
+-Push alt+f2
+-Mount firmware. May have to try a couple time with different directories, /media /mnt /firmware, etc.:
+       mkdir firmware
+	mount --bind /hd-media/home/msifland/iso/firmware /firmware
+-Resume install by pressing alt+f1, and should go smoothly from here.
+-------------------------------------------------------------------------
+-Entries to put in grub.cfg or if /etc/grub.d/40_custom(41_custom)
+### Customer Entry ###
+exec tail -n +3 $0
+
+menuentry "Debian Installer From Live.iso" {
+		insmod part_msdos
+		insmod ext2
+		set root='(hd0,msdos4)'
+        linux /home/msifland/iso/debian/vmlinuz
+        initrd /home/msifland/iso/debian/initrd.gz
+}
+
+menuentry "Debian Installer From Live.iso" {
+		insmod part_msdos
+		insmod ext2
+		set root='(hd0,msdos1)'
+        linux /home/msifland/iso/vmlinuz
+        initrd /home/msifland/iso/initrd.gz
+}
+### End Custom Entry ###
+_________________________________________________________________________
+
+---For Ubuntu
+-Just download Ubuntu distro of choice and put it in /home/msifland/iso/<Ubuntu_Distro>.iso
+-Add this to grub.cfg or if /etc/grub.d/40_custom(41_custom)
+
+### Begin custom entry ###
+exec tail -n +3 $0
+
+menuentry "Mate 18.04 Live-ISO" {
+	set isofile="/home/msifland/mate_iso/ubuntu-mate-18.04-desktop-amd64.iso"
+	loopback loop (hd0,msdos1)$isofile
+	linux (loop)/casper/vmlinuz boot=casper iso-scan/filename=$isofile noprompt noeject
+	initrd (loop)/casper/initrd.lz
+}
+### End Custom entry ###
+
+		-A few things to make note of here on this entry.
+			1. The title of what you want it to say is the first line in quotes.	
+			2. The second line sets the path of the file you have on your system. It will boot straight from the .iso
+			3. The third line is what mounts the .iso.
+			4. The fourth and fifth lines tells it what to look for inside the .iso file. You may have to open the .iso file to see the file names and make sure the are correct. in peticular the 'vmlinuz' and 'initrd.lz' files.
+
+-To make drive last longer disable journal. Boot to a linux machine, plug in the usb drive you have installed linux on and type this in terminal, obviously changing the 'X' and 'Y' to what it should be:
+		tune2fs -O ^has_journal /dev/sdXY
+
+
+Other distros:
+
+# Format for Ubuntu based
+menuentry "Kali-Linux-7-8-19" {
+	set root='(hd0,msdos4)'
+	set isofile="/home/msifland/iso/kali-linux-2019.2-amd64.iso"
+	loopback loop $isofile
+	linux (loop)/live/vmlinuz-4.19.0-kali4-amd64 boot=live findiso=$isofile iso-scan/filename=$isofile noprompt noeject
+	initrd (loop)/live/initrd.img-4.19.0-kali4-amd64
+}
+
+# Format for Debian based
+menuentry "Parrot Linux" {
+	set isofile="/home/msifland/iso/MY_Parrot-security-4.2.2_amd64.iso"
+	loopback loop $isofile
+	linux (loop)/live/vmlinuz-4.18.0-parrot8-amd64 boot=live findiso=$isofile iso-scan/filename=$isofile
+	initrd (loop)/live/initrd.img-4.18.0-parrot8-amd64
+}
+
+# Format for Ubuntu based
+menuentry "Mate 18.10 Live-ISO" {
+	set root='(hd0,4)'
+	set isofile="/home/msifland/iso/ubuntu-mate-18.10-beta-desktop-amd64.iso"
+	loopback loop $isofile
+	linux (loop)/casper/vmlinuz boot=casper iso-scan/filename=$isofile noprompt noeject
+	initrd (loop)/casper/initrd
+}
+
+

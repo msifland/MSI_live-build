@@ -1,0 +1,44 @@
+#!/bin/bash
+# This is a bash script.
+# Put your description below this line and code below that.
+# 
+echo "spike" | sudo -S -v
+echo
+echo "${ILCOLOR3}This will install the kali-rolling repo to your system."
+sleep 1
+
+#YEAR=$(date +"%Y")
+SOURCES="/etc/apt/sources.list.d/kali.sources"
+#KALI_ADDR="https://http.kali.org/kali/pool/main/k/kali-archive-keyring/"
+#KALI_FILE="kali-archive-keyring_$YEAR.1_all.deb"
+if [[ ! -f $SOURCES ]]; then
+	sudo touch $SOURCES
+fi
+echo
+echo "${ILCOLOR3}Adding repos to${ILRESTORE} $SOURCES. . ."
+echo
+sleep 1
+# Removing all white space from end of file.
+sudo sed -i -e :a -e '/^\n*$/{$d;N;};/\n$/ba' $SOURCES
+echo "${ILCOLOR3}Adding:${ILRESTORE}"
+echo "###Kali linux repos(for hacking tools)
+Types: deb deb-src
+URIs: http://http.kali.org/kali/
+Suites: kali-rolling
+Components: main contrib non-free non-free-firmware
+Signed-By: /etc/apt/keyrings/kali-archive-keyring.gpg" | sudo tee $SOURCES
+echo
+echo "${ILCOLOR3}to $SOURCES file.${ILRESTORE}"
+sleep 3
+
+echo
+echo "${ILCOLOR3}Adding trusted key to /etc/apt/keyrings. . .${ILRESTORE}"
+sleep 1
+
+echo "${ILCOLOR3}Getting file with${ILRESTORE} sudo wget https://archive.kali.org/archive-keyring.gpg -O /etc/apt/keyrings/kali-archive-keyring.gpg. . ."
+sleep 1
+sudo wget https://archive.kali.org/archive-keyring.gpg -O /etc/apt/keyrings/kali-archive-keyring.gpg
+sleep 3
+
+echo
+echo "${ILCOLOR3}All Finished. Run sudo apt upate to verify${ILRESTORE}"

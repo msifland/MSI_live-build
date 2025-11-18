@@ -1,0 +1,79 @@
+#!/bin/bash
+# This is a bash script.
+# Put your description below this line and code below that.
+# 
+echo
+echo "Running my custom lb config and build..."
+echo 'spike' | sudo -S -v
+sleep 1
+
+sudo lb clean --all --cache --chroot --binary --purge --remove --stage --source
+
+# Define dirs and clean and create
+RT_DIR="$HOME/MSI_live-build"
+MAIN_CONF="$RT_DIR/config"
+MY_CONF="$RT_DIR/my_configs"
+if [[ -d $MAIN_CONF ]]; then
+	rm -rf $MAIN_CONF
+fi
+CHROOT_INCL="$MAIN_CONF/includes.chroot"
+if [[ ! -d $CHROOT_INCL ]]; then
+	mkdir -p $CHROOT_INCL
+fi
+
+cd $RT_DIR
+
+lb config
+sleep1
+
+lb config --debian-installer netinst
+sleep 1
+lb config --debian-installer-gui true
+sleep 1
+lb config --debian-installer-distribution testing
+sleep 1
+lb config --system live
+sleep 1
+lb config --firmware-binary true
+sleep 1
+lb config --firmware-chroot true
+sleep 1
+lb config --image-name MSI_live-image
+sleep 1
+lb config --security true
+sleep 1
+lb config --updates true
+sleep 1
+lb config --archive-areas "main contrib non-free-firmware non-free"
+sleep 1
+lb config --parent-archive-areas "main contrib non-free-firmware non-free"
+sleep 1
+lb config --build-with-chroot true
+sleep 1
+lb config --bootappend-live "boot=live components persistence username=msifland"
+
+mkdir -p $MAIN_CONF/hooks
+mkdir -p $MAIN_CONF/hooks/live
+mkdir -p $MAIN_CONF/hooks/normal
+cp $MY_CONF/02-add-user.chroot $MAIN_CONF/hooks/live/
+cp $MY_CONF/02-add-user.chroot $MAIN_CONF/hooks/normal/
+
+mkdir -p $CHROOT_INCL/etc/lightdm
+cp $MY_CONF/lightdm.conf $CHROOT_INCL/etc/lightdm/
+
+mkdir -p $CHROOT_INCL/etc/sudoers.d
+cp $MY_CONF/msifland $CHROOT_INCL/etc/sudoers.d/
+
+mkdir -p $CHROOT_INCL/etc/skel/desktop
+cp $MY_CONF/Debian-Install.desktop $CHROOT_INCL/etc/skel/desktop
+rsync -a --exclude=".git" $HOME/scripts $CHROOT_INCL/etc/skel/
+rsync -a --exclude=".git" $HOME/Documents $CHROOT_INCL/etc/skel/
+rsync -a --exclude=".git" $HOME/pkg_bkups $CHROOT_INCL/etc/skel/
+rsync -a --exclude=".git" $HOME/Modules-Apps $CHROOT_INCL/etc/skel/
+rsync -a $HOME/.bash* $CHROOT_INCL/etc/skel/
+rsync -a $HOME/.blerc $CHROOT_INCL/etc/skel/
+rsync -a $HOME/.nanorc* $CHROOT_INCL/etc/skel/
+
+mkdir -p $MAIN_CONF/package-lists
+cp $MY_CONF/my_packs.list.chroot $MAIN_CONF/package-lists/
+sleep 1

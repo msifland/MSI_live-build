@@ -1,0 +1,47 @@
+#!/bin/bash
+# This is a bash script.
+# Put your description below this line and code below that.
+# This scripts checks the current kernel against the system kernel to see if kernel build script needs to be called.
+echo 'spike' | sudo -S -v
+# This function allows version number comparison.
+function version_gt() { 
+	test "$(printf '%s\n' "$@" | sort -V | head -n 1)" != "$1"; 
+}
+
+WORK_DIR="$HOME/tmp/kernel_build"
+STOR_DIR="$HOME/tmp/kernel_build/kernel_storage"
+KERN_SOURCE="https://git.kernel.org/pub/scm/linux/kernel/
+git/stable/linux.git"
+RNNING=$(uname -r | awk -F '\\-' '{print $1}')
+
+sleep 1
+echo "${ILCOLOR1}Checking to see what kernel is running on your system. . ."
+sleep 1
+echo "${ILCOLOR2}-----> Currently running $RNNING" | pv -qL 50
+sleep 1
+
+# Get and format websit info. Grepping "latest_link" is in page source for latest download. The rest is of this is for formatting.
+GET=$(wget -qO- https://www.kernel.org | grep -A1  "latest_link\">" | grep "<a href=" | sed -e 's:<a href="::' | sed -e 's:">*::' | sed -e "s:tar.xz.*:tar.xz:" | sed "s/^[ \t]*//")
+GET_VER=$(echo $GET | sed -e "s:.*linux-::" | sed -e "s:.tar.xz::")
+echo
+echo "${ILRESTORE}Newest stable kernel version available is ${ILCOLOR2}$GET_VER${ILRESTORE}"
+sleep 1
+
+if version_gt "$GET_VER" "$RNNING"; then
+	echo
+	read -p "Your kernel is older than the newest available. Would you like to run script 'kernel_build'? " yn_kern
+	if [[ $yn_kern =~ ^([yY][eE][sS]|[yY])$ ]]; then
+		echo "${ILCOLOR3}Ok, running script kernel-build. . .${ILRESTORE}"
+		$HOME/scripts/kernel_scripts/kernel-build
+	else
+		echo
+		echo "${ILCOLOR3}Okay, not running script and exitng now.${ILRESTORE}"
+		sleep 1
+	fi
+else
+	echo
+	echo "${ILCOLOR2}You already have the latest kernel. Exiting now.${ILRESTORE}"
+	echo
+	sleep 2
+fi
+exit

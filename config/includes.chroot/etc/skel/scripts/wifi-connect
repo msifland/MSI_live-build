@@ -1,0 +1,52 @@
+#!/bin/bash
+# This is a blank bash script document.
+# Put your code below this line.
+echo
+echo "Attempting to connect to wifi on this machine. . ."
+echo
+nmcli r wifi on
+sleep 1
+if ! dpkg --get-selections | awk '{print $1}' | grep -wq "network-manager"; then
+	sudo dpkg -i --force-all $HOME/pkg_bkups/backups/network-manager.deb
+fi
+
+echo
+echo "Using nmcli to try and connect."
+echo
+sleep 1
+echo "Disconnecting from current network fi connected. . ."
+
+CURR_CONN=$(nmcli dev wifi | grep "*" | awk '{print $2}')
+nmcli con down $CURR_CONN
+sleep 1
+
+WI_CRD=$(nmcli dev | grep -w "wifi" | grep "^w" | awk '{print $1}')
+echo
+echo "Curretn wireless card is $WI_CRD"
+sleep 1
+
+echo "Setting connection down. . ."
+sudo ifconfig $WI_CRD down
+sudo dhclient -r $WI_CRD
+echo
+sleep 5
+echo "Setting connection up, and scanning for networks. . ."
+sudo ifconfig $WI_CRD up
+echo
+sleep 60
+
+
+echo
+echo "***Showing connections with nmcli. Press 'q' when finished viewing and continue.***"
+nmcli dev wifi
+echo
+read -p "Type in the ESSID network name to connect: " NET_NAME
+echo
+read -p "What is the password for $NET_NAME? " PSSWD
+echo
+
+echo "Attempting to connect to SSID:$NET_NAME now. . ."
+nmcli dev wifi connect $NET_NAME password $PSSWD
+
+
+exit

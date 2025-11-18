@@ -1,0 +1,181 @@
+#!/bin/bash
+# This is a script to automate ssh connections setup on new install.
+echo
+echo "Setting up ssh server on your pc."
+echo
+sleep 1
+
+echo 'spike' | sudo -S -v
+
+SSH_FILE="/etc/ssh/sshd_config"
+
+echo
+echo "Checking if openssh is installed. . ."
+sleep 1
+if ! dpkg --get-selections | awk '{print $1}' | grep -wq "openssh"; then
+	sudo apt install openssh
+else
+	echo "openssh is installed."
+fi
+sleep 1
+
+echo
+echo "Checking if Port 22 in $SSH_FILE is uncommented. . ."
+sleep 1
+if grep "^#Port 22" $SSH_FILE; then
+	sudo sed -i 's:#Port 22:Port 22:g' $SSH_FILE
+else
+	echo "Already uncommented."
+fi
+sleep 1
+
+echo
+echo "Checking if 'PermitRootLogin prohibit-password' is uncommented. . ."
+sleep 1
+if grep "^#PermitRootLogin prohibit-password" $SSH_FILE; then
+	sudo sed -i 's:#PermitRootLogin prohibit-password:PermitRootLogin prohibit-password:g' $SSH_FILE
+else
+	echo "Already uncommented."
+fi
+sleep 1
+
+echo
+echo "Checking if 'X11Forwarding no' is set to 'yes'. . ."
+sleep 1
+if grep "^#X11Forwarding no" $SSH_FILE; then
+	sudo sed -i 's:#X11Forwarding no:X11Forwarding yes:g' $SSH_FILE
+else
+	echo "Already set."
+fi
+sleep 1
+
+echo
+echo "Checking if 'AllowUsers msifland' is added. . ."
+sleep 1
+if ! grep "^AllowUsers $USER" $SSH_FILE; then
+	echo "AllowUsers $USER" | sudo tee -a $SSH_FILE
+else
+	echo "Already added."
+fi
+sleep 1
+
+function enter_port(){
+echo
+read -p "The most secure ports are below 1024. Enter a port number to open(suggested 882, '0' to exit): " PRT
+sleep 1
+
+if [[ $PRT = 0 ]]; then
+	echo
+	echo "Exiting now. . ."
+	sleep 1
+	exit
+fi
+echo
+echo "Checking if Port $PRT in $SSH_FILE is uncommented. . ."
+if grep -wq "^Port $PRT" $SSH_FILE; then
+	read -p "Port $PRT is already in file, would you like to enter a different one? " DIFF_PRT
+	if [[ $DIFF_PRT =~ ^([yY][eE][sS]|[yY])$ ]]; then
+		sleep 1
+		enter_port
+	else
+		echo "Moving on. . ."
+	fi
+else
+	echo "Adding Port $PRT to $SSH_FILE"
+	echo "Port $PRT" | sudo tee -a $SSH_FILE
+fi
+sleep 1
+}
+enter_port
+
+echo
+echo "Running commands to restart ssh. . ."
+sleep 1
+sudo sudo systemctl stop sshd
+sudo service ssh restart
+sleep 1
+
+echo
+echo "Be sure to set your connections to static ip. Opening instruction and connections settings. . ."
+sleep 3
+subl /home/msifland/Documents/Linux_Setup/ip_static_settings
+nm-connection-editor
+
+echo
+echo "Setting up rules from backed up profile for firewall. . ."
+sleep 1
+if ! dpkg --get-selections | awk '{print $1}' | grep -w "gufw"; then
+	echo
+	echo "Uncomplicated firewall not found, installing now. . ."
+	sleep 1
+	echo
+	sudo apt install gufw
+fi
+
+# Add ports to firewall profile
+function count_rules(){
+	# Count rules and add 1 for formatting to file.
+	RULE=$(grep -o "^\[Rule" /home/msifland/pkg_bkups/backups/firewall_profile.profile | wc -l)
+
+	# Echo rules to Home.profile of firewall.
+	echo "
+[Rule$RULE]
+ufw_rule = $PRT ALLOW IN Anywhere
+description = SSH
+command = /usr/sbin/ufw allow in proto tcp from any to any port $PRT
+policy = allow
+direction = in
+protocol = 
+from_ip = 
+from_port = 
+to_ip = 
+to_port = $PRT
+iface = 
+routed = 
+logging = " >> /home/msifland/pkg_bkups/backups/firewall_profile.profile
+
+	let RULE=$RULE+1
+	echo "
+[Rule$RULE]
+ufw_rule = $PRT (v6) ALLOW IN Anywhere (v6)
+description = SSH
+command = /usr/sbin/ufw allow in proto tcp from any to any port $PRT
+policy = allow
+direction = in
+protocol = 
+from_ip = 
+from_port = 
+to_ip = 
+to_port = $PRT
+iface = 
+routed = 
+logging = " >> /home/msifland/pkg_bkups/backups/firewall_profile.profile
+
+}
+echo 'spike' | sudo -S -v
+# Check if port is already added to firewall profile template so it doesn't get entered twice. If not call count_rules function.
+if ! grep -q "ufw_rule = $PRT" /home/msifland/pkg_bkups/backups/firewall_profile.profile; then
+	count_rules
+else
+	echo
+	echo "Port $PRT is already listed in /home/msifland/pkg_bkups/backups/firewall_profile.profile."
+	sleep 1
+fi
+
+echo
+echo "Copying /home/msifland/pkg_bkups/backups/firewall_profile.profile to /etc/gufw/Home.profile. . . "
+sudo pkill ufw
+sudo pkill gufw
+sudo rm -rf /etc/gufw/Home.profile
+sudo cp /home/msifland/pkg_bkups/backups/firewall_profile.profile /etc/gufw/Home.profile 
+sleep 1
+
+echo
+echo "Opening firewall to see if settings were copied successfully. Look under rules tab. . ."
+sleep 1
+sudo gufw
+
+echo
+echo "Also opening up a web page for router setting, set up port forwarding in your router to the Port $PRT."
+sleep 3
+detach /usr/bin/chromium

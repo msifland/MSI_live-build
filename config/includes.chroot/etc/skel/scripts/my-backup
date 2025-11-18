@@ -1,0 +1,157 @@
+#!/bin/bash
+
+PSWD="spike"
+echo $PSWD | sudo -S -v
+# What Files or Folders to Take Backup of.
+#/usr/share/mate*
+BACKUP_FILES="$HOME/Brother_Printer
+$HOME/Documents
+$HOME/Dropbox
+$HOME/GrubThemes
+$HOME/maps
+$HOME/Modules-Apps
+$HOME/pkg_bkups
+$HOME/Projects
+$HOME/scripts
+$HOME/Templates
+$HOME/Wallpapers
+$HOME/usb_pkg_bkups
+$HOME/.anydesk
+$HOME/.blerc
+$HOME/.cache
+$HOME/.config
+$HOME/.icons
+$HOME/.local
+$HOME/.profile
+$HOME/.ssh
+$HOME/.themes
+$HOME/.xprofile
+$HOME/.Xresources
+$HOME/.bash*
+$HOME/.conky*
+$HOME/.git*
+$HOME/.repo*
+/usr/share/mate*"
+
+# Excluded files and folders
+EXCLUDE="--exclude=$HOME/.cache/chromium
+--exclude=$HOME/.cache/chrome-remote-desktop
+--exclude=$HOME/.cache/mozilla
+--exclude=$HOME/.cache/tracker
+--exclude=$HOME/.cache/wine*
+--exclude=$HOME/.cache/google-chrome
+--exclude=$HOME/.cache/at-spi*
+--exclude=$HOME/maps/*.img
+--exclude=$HOME/maps/*.old
+--exclude=$HOME/maps/combine
+--exclude=$HOME/maps/downloads
+--exclude=$HOME/maps/Garmin_Maps_Removed_From_Device
+--exclude=$HOME/mpas/tmp
+--exclude=$HOME/maps/completed_maps
+--exclude=$HOME/Modules-Apps/.git
+--exclude=$HOME/.config/chrome-remote-desktop
+--exclude=$HOME/.config/chromium
+--exclude=$HOME/.config/google-chrome
+--exclude=$HOME/.config/skypeforlinux
+--exclude=$HOME/.config/Code
+--exclude=$HOME/.config/variety/variety.log
+--exclude=$HOME/.local/share/applications
+--exclude=$HOME/.local/share/baloo
+--exclude=$HOME/.local/share/akonadi
+--exclude=$HOME/.local/share/lutris
+--exclude=$HOME/.local/share/Steam
+--exclude=$HOME/.local/share/Trash
+--exclude=$HOME/.local/share/data
+--exclude=$HOME/Dropbox"
+
+# Destination of Backup.
+DEST="$HOME/Dropbox/Linux/Backups"
+
+# Create archive filename.
+DAY=$(date +%m-%d-%Y)
+HOST_NAME=$(whoami)
+ARCHIVE_FILE=$HOST_NAME-$DAY".tar.gz"
+
+function backup(){
+	cd
+	echo
+	echo
+	echo $(date +%m-%d-%Y) $(date +"%r")
+	tm_wh_start=$(date +"%s")
+	echo
+	sleep 1
+
+	# Remove old backups if more than 2
+	echo "${ILCOLOR2}Remove old backups first. . .${ILRESTORE}"
+	sleep 2
+	echo "ls $DEST/* -t | sed -e '1,5d' | xargs -d '\n' rm -f"
+	ls $DEST/* -t | sed -e '1,5d'
+	if [[ ! -d "$DEST" ]]; then
+		mkdir $DEST
+	else
+		if ls $DEST/* 1> /dev/null 2>&1; then
+			ls $DEST/* -t | sed -e '1,5d' | xargs -d '\n' rm -f
+		fi
+	fi
+	echo
+	sleep 1
+
+	# Print start status message.
+	echo "${ILCOLOR2}Backing up:${ILRESTORE}"
+	echo "$BACKUP_FILES"
+	echo "${ILCOLOR2}To $DEST/$ARCHIVE_FILE"
+	echo
+	echo
+	sleep 3
+
+	# Print excluded files
+	echo "Excluding:${ILRESTORE}"
+	echo "$EXCLUDE" | sed 's/--exclude=//g'
+	echo
+	sleep 3
+
+	# Backup The Files using tar.
+	echo "${ILCOLOR2}Backing up now. . .${ILRESTORE}"
+	sleep 1
+	sudo tar -czf $DEST/$ARCHIVE_FILE $EXCLUDE $BACKUP_FILES
+	sleep 1
+
+	# Print end status message.
+	echo "${ILCOLOR2}Backup finished"
+	echo
+	sleep 1
+
+	# Change ownship of files from root to user. Could be root if done with sudo above
+	echo "Making sure ownership is correct. . .${ILRESTORE}"
+	echo
+	sleep 1
+	for ROOT_FILE in $(find $HOME/Dropbox/Linux/Backups/* -type f -user root); do
+		echo "Changing ownership of $ROOT_FILE from root:root to msifland:msifland. . ."
+		sleep 1
+		echo "sudo chown msifland:msifland $ROOT_FILE"
+		sudo chown msifland:msifland $ROOT_FILE
+		sleep 1
+	done
+
+	# Long listing of files in $DEST to check file sizes.
+	echo "${ILCOLOR2}Showing files in $HOME/Dropbox/Linux/Backups/ . . .${ILRESTORE}"
+	ls -lh $DEST
+	echo
+	sleep 1
+	
+	# Instructions on how to edit this file
+	echo "${ILCOLOR2}You can edit files and folders to backup and exclude in $HOME/scripts/my_backup or by typing edit-my-backup.${ILRESTORE}"
+	echo
+	sleep 1
+
+	echo $(date +%m-%d-%Y) $(date +"%r")
+	tm_wh_end=$(date +"%s")
+		tm_wh_diff=$(($tm_wh_end - $tm_wh_start))
+	echo "${ILCOLOR2}It took $((($tm_wh_diff % 3600) / 60)) minutes $(($tm_wh_diff % 60)) seconds to run whole process.${ILRESTORE}"
+	echo
+	sleep 1
+}
+
+# Call funtion to backup
+backup | tee $HOME/Dropbox/Linux/Backups/my_backup_log.txt
+exit 0

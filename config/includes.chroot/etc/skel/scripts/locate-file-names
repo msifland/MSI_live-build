@@ -1,0 +1,15 @@
+#!/bin/bash
+# This is a blank bash script document.
+# Put your code below this line.
+# This script will find files by name
+echo 'spike' | sudo -S -v
+echo
+read -p "Would you like to search recursively? " rec
+if [[ "$rec" =~ ^([yY][eE][sS]|[yY])$ ]]; then
+	sudo find . -iname $1 2>&1 | grep -v 'Permission denied' | grep -v 'Invalid argument' | grep -v 'No such file or directory'
+else
+	sudo find . -maxdepth 1 -iname $1 2>&1 | grep -v 'Permission denied' | grep -v 'Invalid argument' | grep -v 'No such file or directory'
+fi
+
+echo
+echo "Searching finished."

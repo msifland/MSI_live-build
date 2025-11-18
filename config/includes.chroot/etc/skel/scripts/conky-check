@@ -1,0 +1,60 @@
+#!/bin/bash
+# Check if conky has correct dependencies and network interface adjuments.
+echo
+echo "Checking dependencies. . ."
+echo
+sleep 1
+if ! dpkg --get-selections | awk '{print $1}' | grep -xq "conky"; then
+	echo "conky not found, installing now. . ."
+	sleep 1
+	sudo apt install conky
+else
+	echo "conky found."
+	sleep 1
+fi
+
+sleep 2
+echo
+echo "Making sure conky is not running..."
+sleep 1
+cpid=$(pidof conky)
+while [[ $cpid != "" ]]; do
+	echo "Shutting down conky. . ."
+	echo "PID="$cpid
+	cpid=$(pidof conky)
+	killall conky
+	sleep 1
+done
+
+echo
+echo "Checking for ethernet or wireless connections. . ."
+echo
+sleep 2
+
+$HOME/scripts/conky_iface_var.sh
+
+echo
+echo 'Starting conky in:'
+# Start a countdown to action.
+secs=$((1 * 30))
+while [ $secs -gt 0 ]; do
+   echo -ne "$secs\033[0K\r"
+   sleep 1
+   : $((secs--))
+done
+
+# Start conky
+echo "Starting conky now. . ."
+detach conky
+sleep 10
+# Kill current terminal that this process is running in.
+#kill -9 $PPID
+
+if [ $? -eq 0 ]; then
+	echo
+	echo "All is good."
+else
+	echo
+	echo "Error detected!!!"
+fi
+sleep 2
