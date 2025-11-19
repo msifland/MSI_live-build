@@ -9,10 +9,14 @@
 #
 # <file system> <mount point>   <type>  <options>       <dump>  <pass>
 # / was on /dev/sda1 during installation
+
 UUID=38f3a1e0-4c9e-4341-8166-a278cf4902f8     /       ext4    errors=remount-ro 0       1
 
 UUID=f417d30a-7c2a-4971-bfde-78d9f78e9699     /home   ext4    defaults        0       2
 
 UUID=287b1c7d-bcb9-4f64-96e0-6a5530c42ea7     /boot   ext4    defaults    0       2
+
+##sda4 with iso's
+UUID=d647627e-b4fd-4512-93e0-4263c2226a92	  /misc	  ext4	  defaults		  0	   	  2
 
 /dev/sr0                                      /media/cdrom0   udf,iso9660 user,noauto     0       0

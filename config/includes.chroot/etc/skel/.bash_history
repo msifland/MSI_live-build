@@ -887,3 +887,89 @@ rsync -av --exclude=".git" $HOME/Modules-Apps config/includes.chroot/etc/skel/
 rsync -av --exclude=".git" $HOME/.bash* config/includes.chroot/etc/skel/
 lb config
 my_configs/lb_config 
+ls -la
+cd ~/scripts
+ls -la
+cd Downloads
+sudo dpkg -i dropbox_2025.05.20_amd64.deb 
+dropbox
+dropbox autostart
+dropbox autostart y
+dropbox start
+mkfs --help
+mkfs -L --help
+lsblk -fs
+mkfs -L misc -U d647627e-b4fd-4512-93e0-4263c2226a92
+sudo mkfs.ext2 -L misc -U d647627e-b4fd-4512-93e0-4263c2226a92
+e2label --help
+man e2label
+e2label d647627e-b4fd-4512-93e0-4263c2226a92 misc
+e2label /dev/sda4 misc
+sudo e2label /dev/sda4 misc
+lsblk -fs
+sudo e2label /dev/sda1 root
+sudo e2label /dev/sda2 home
+sudo e2label /dev/sda3 boot
+lsblk
+lsblk -fs
+sort-words
+sed -i.bak $'s/^/\t/' /home/msifland/scripts/sort-words
+tab-add
+cd scripts
+chmod +x tab-add
+tab-add
+cd ~/MSI_live-build/
+my_configs/
+cd my_configs/
+./lb_config 
+msi-live-build
+git-update
+sudo apt install calamares calamares-settings-debian
+linux-update
+sudo apt installcalamares calamares-settings-debian qt5-image-formats-plugins qml-module-qtquick-controls qml-module-qtquick-controls2 qml-module-qtquick-templates2 qml-module-qtquick-window2 qml-module-qtquick2 udisks2 dosfstools e2fsprogs btrfs-progs f2fs-tools xfsprogs jfsutils reiserfsprogs ntfs-3g grub-efi-amd64-bin
+sudo apt install installcalamares calamares-settings-debian qt5-image-formats-plugins qml-module-qtquick-controls qml-module-qtquick-controls2 qml-module-qtquick-templates2 qml-module-qtquick-window2 qml-module-qtquick2 udisks2 dosfstools e2fsprogs btrfs-progs f2fs-tools xfsprogs jfsutils reiserfsprogs ntfs-3g grub-efi-amd64-bin
+sudo apt install calamares calamares-settings-debian qt5-image-formats-plugins qml-module-qtquick-controls qml-module-qtquick-controls2 qml-module-qtquick-templates2 qml-module-qtquick-window2 qml-module-qtquick2 udisks2 dosfstools e2fsprogs btrfs-progs f2fs-tools xfsprogs jfsutils reiserfsprogs ntfs-3g grub-efi-amd64-bin
+sort-words
+sudo apt install debian-installer debian-installer-launcher
+linux-update
+cd ..
+linux-update
+my-backup
+debian-install
+cd
+sudo debian-install
+sudo apt install taskel
+tasksel
+msi-live-build 
+sudo apt -y modernize-sources
+sudo apt update
+sudo apt -y modernize-sources
+msi-live-build 
+cd MSI_live-build/
+sudo lb clean; sudo lb clean cache
+sudo lb clean --all
+sudo lb clean --cache --chroot --binary --purge --remove --stage --source
+lb config
+cd
+msi-live-build
+cd MSI_live-build/
+sudo lb clean --all --cache --chroot --binary --purge --remove --stage --source
+msi-live-build
+lsblk -fs
+subl /etc/fstab
+e2label /dev/sda1 'boot'
+sudo e2label /dev/sda1 'boot'
+lsblk -fs
+sudo e2label /dev/sda1 'root'
+lsblk -fs
+sudo e2label /dev/sda2 'home'
+exit
+sudo mount /dev/sdb3 /boot
+sudo mount /dev/sda3 /boot
+systemctl daemon-reload
+sudo mount /dev/sda3 /boot
+dropbox autostart -y
+#!/bin/bash -i
+# This is call on startup from .config/autostart to create an env file to use for cron scripts to be able to run cron jobs in an open terminal.
+sleep 55
+mate-terminal -e "bash -c \"source ~/.bashrc; env > $HOME/scripts/cron_scripts/env-environment; sed -i '/LESSCLOSE/d' $HOME/scripts/cron_scripts/env-environment; sed -i '/LESSOPEN/d' $HOME/scripts/cron_scripts/env-environment\""

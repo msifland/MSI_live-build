@@ -180,6 +180,8 @@ debconf-i18n
 debhelper
 debian-archive-keyring
 debian-faq
+debian-installer
+debian-installer-launcher
 debian-mate-default-settings
 debianutils
 debootstrap
@@ -227,6 +229,7 @@ dwz
 e2fsprogs
 easy-rsa
 ed
+efibootmgr
 eject
 emacsen-common
 enchant-2
@@ -239,6 +242,7 @@ ethtool
 evolution-data-server-common
 exfatprogs
 exif
+f2fs-tools
 fakeroot
 fdisk
 ffmpeg
@@ -491,6 +495,9 @@ groff-base
 group-service
 grub-common
 grub-customizer
+grub-efi-amd64-bin
+grub-efi-amd64-signed
+grub-efi-amd64-unsigned
 grub-pc
 grub-pc-bin
 grub2-common
@@ -583,6 +590,7 @@ iucode-tool
 iw
 java-common
 javascript-common
+jfsutils
 john
 john-data
 jq
@@ -806,7 +814,6 @@ libcap-dev:amd64
 libcap-ng-dev:amd64
 libcap-ng0:amd64
 libcap2:amd64
-libcap2:i386
 libcap2-bin
 libcapi20-3t64:amd64
 libcapstone5:amd64
@@ -1216,7 +1223,6 @@ libgpg-error0:amd64
 libgpg-error0:i386
 libgpgme11t64:amd64
 libgpgme45:amd64
-libgpgmepp6t64:amd64
 libgpgmepp7:amd64
 libgphoto2-6t64:amd64
 libgphoto2-l10n
@@ -1630,6 +1636,7 @@ libminizip1t64:amd64
 libmjpegutils-2.1-0t64:amd64
 libmm-glib0:amd64
 libmms0:amd64
+libmng1:amd64
 libmnl0:amd64
 libmodplug1:amd64
 libmodule-implementation-perl
@@ -2011,6 +2018,7 @@ librecode3:amd64
 libref-util-perl
 libref-util-xs-perl
 libregexp-ipv6-perl
+libreiserfscore0t64
 libreoffice-common
 libreoffice-core
 libreoffice-gnome
@@ -3057,6 +3065,7 @@ mdadm
 media-player-info
 media-types
 megasync
+menu
 mesa-libgallium:amd64
 mesa-libgallium:i386
 mesa-utils
@@ -3079,6 +3088,7 @@ mkgmapgui
 mobile-broadband-provider-info
 modemmanager
 module-assistant
+mokutil
 mount
 mozo
 mscompress
@@ -3469,6 +3479,7 @@ qml6-module-qtquick-shapes:amd64
 qml6-module-qtquick-templates:amd64
 qml6-module-qtquick-window:amd64
 qt5-gtk-platformtheme:amd64
+qt5-image-formats-plugins:amd64
 qt6-gtk-platformtheme:amd64
 qt6-qpa-plugins:amd64
 qt6-svg-plugins:amd64
@@ -3479,6 +3490,7 @@ qtwayland5:amd64
 quilt
 rake
 readline-common
+reiserfsprogs
 reportbug
 rfkill
 rofi
@@ -3533,6 +3545,10 @@ sgml-base
 sgml-data
 sgmlspl
 shared-mime-info
+shim-helpers-amd64-signed
+shim-signed:amd64
+shim-signed-common
+shim-unsigned:amd64
 shotwell
 shotwell-common
 skypeforlinux
@@ -3717,6 +3733,7 @@ xfonts-base
 xfonts-encodings
 xfonts-scalable
 xfonts-utils
+xfsprogs
 xinit
 xkb-data
 xkbset

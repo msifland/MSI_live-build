@@ -55,6 +55,7 @@ firmware-zd1211
 fstransform
 fwupd
 fwupd-amd64-signed
+fzf
 g++
 gawk
 gcc
@@ -92,11 +93,13 @@ ipxe-qemu
 isc-dhcp-client
 iw
 jfsutils
+jshon
 less
 lightdm
 lightdm-gtk-greeter
 lightdm-settings
 linux-image-amd64
+linux-headers-amd64
 live-boot
 live-boot-doc
 live-boot-initramfs-tools
