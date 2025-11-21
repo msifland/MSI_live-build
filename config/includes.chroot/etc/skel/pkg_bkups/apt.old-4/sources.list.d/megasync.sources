@@ -3,3 +3,10 @@ URIs: https://mega.nz/linux/repo/Debian_13/
 Suites: ./
 Components: 
 Signed-By: /etc/apt/keyrings/meganz-archive-keyring.gpg
+
+
+
+
+
+
+#deb [signed-by=/etc/apt/keyrings/meganz-archive-keyring.gpg] https://mega.nz/linux/repo/Debian_13/ ./

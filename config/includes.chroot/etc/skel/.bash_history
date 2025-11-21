@@ -1,625 +1,3 @@
-#1762554208
-sudo apt install xrdp
-sudo apt install dconf-cli
-sudo dconf update
-sudo touch /etc/dconf/db/local
-sudo dconf update
-sudo touch /etc/dconf/db/site
-sudo touch /etc/dconf/db/distro
-sudo mkdir /etc/dconf/db/site.d
-sudo mkdir /etc/dconf/db/distro.d
-sudo dconf update
-sudo apt install dconf-cli
-sudo apt install dconf-cli --reinstall
-sudo dconf update
-sudo apt install logrotate
-logrotate --help
-logrotate -s ~/.logrotate.state ~/scripts/xsession-log-rotate
-crontab -3
-crontab -e
-which logrotate
-crontab -e
-crontab -e
-conky-check
-conky-check
-linux-update
-sudo apt update
-sudo apt update --audit
-linux-update
-sudo caja
-logrotate --help
-crontab -e
-/usr/sbin/logrotate -s ~/.logrotate.state ~/scripts/xsession-log
-   -rotate
-crontab -e
-/usr/sbin/logrotate -s ~/.logrotate.state ~/scripts/xsession-log-rotate
-sudo apt update
-rec-key kali 827C8569F2518CC677FECA1AED65462EC8D5E4C5
-sudo apt update
-sudo wget https://archive.kali.org/archive-keyring.gpg -O /etc/apt/keyrings/kali-archive-keyring.gpg
-sudo apt update
-sudo apt updage
-linux-update
-apt search linux-image | grep "kali"
-kali-repo-install
-sudo apt update
-linux-update
-ppa-list
-blesh-update
-apt search openshot
-sudo apt install openshot-qt
-apt search metasploit
-suto apt install metasploit-framework
-sudo apt install metasploit-framework
-sudo aptitude install metasploit-framework
-sudo apt install metasploit-framework
-sudo aptitude install metasploit-framework
-linux-update
-lsblk
-ls -ls /dev/sdb1/
-mount /dev/sdb /mnt/
-sudo mount /dev/sdb /mnt/
-lsblk
-chroot/mount
-chroot-mount
-lsblk
-sudo update-grub /dev/sdb1
-lsblk
-sudo update-grub /dev/sdc1
-chroot-mount
-#!/bin/bash -i
-# This is call on startup from .config/autostart to create an env file to use for cron scripts to be able to run cron jobs in an open terminal.
-sleep 55
-mate-terminal -e "bash -c \"source ~/.bashrc; env > $HOME/scripts/cron_scripts/env-environment; sed -i '/LESSCLOSE/d' $HOME/scripts/cron_scripts/env-environment; sed -i '/LESSOPEN/d' $HOME/scripts/cron_scripts/env-environment\""
-lsblk
-chroot-mount 
-exit
-sudo update-grub
-sudo apt install grub(2) /dev/sdb
-sudo apt install grub /dev/sdb
-sudo grub-install /dev/sdb
-sudo update-grub /dev/sdb
-exit
-#!/bin/bash -i
-# This is call on startup from .config/autostart to create an env file to use for cron scripts to be able to run cron jobs in an open terminal.
-sleep 55
-mate-terminal -e "bash -c \"source ~/.bashrc; env > $HOME/scripts/cron_scripts/env-environment; sed -i '/LESSCLOSE/d' $HOME/scripts/cron_scripts/env-environment; sed -i '/LESSOPEN/d' $HOME/scripts/cron_scripts/env-environment\""
-#!/bin/bash -i
-# This is call on startup from .config/autostart to create an env file to use for cron scripts to be able to run cron jobs in an open terminal.
-sleep 55
-mate-terminal -e "bash -c \"source ~/.bashrc; env > $HOME/scripts/cron_scripts/env-environment; sed -i '/LESSCLOSE/d' $HOME/scripts/cron_scripts/env-environment; sed -i '/LESSOPEN/d' $HOME/scripts/cron_scripts/env-environment\""
-chroot-mount
-exit
-gen-iso
-sudo umount /dev/sdc1
-sudo umount /dev/sdc3
-sudo umount /dev/sdc4
-sudo umount /dev/sdc2
-sudo umount /dev/sdc2 -f
-sudo umount --force /dev/sdc2
-sudo umount /mnt/chroot
-exit
-#!/bin/bash -i
-# This is call on startup from .config/autostart to create an env file to use for cron scripts to be able to run cron jobs in an open terminal.
-sleep 55
-mate-terminal -e "bash -c \"source ~/.bashrc; env > $HOME/scripts/cron_scripts/env-environment; sed -i '/LESSCLOSE/d' $HOME/scripts/cron_scripts/env-environment; sed -i '/LESSOPEN/d' $HOME/scripts/cron_scripts/env-environment\""
-sudo apt install nemo
-chroot-mount
-sudo apt install pcmanfm
-sudo nemo
-sudo pcmanfm
-#!/bin/bash -i
-# This is call on startup from .config/autostart to create an env file to use for cron scripts to be able to run cron jobs in an open terminal.
-sleep 55
-mate-terminal -e "bash -c \"source ~/.bashrc; env > $HOME/scripts/cron_scripts/env-environment; sed -i '/LESSCLOSE/d' $HOME/scripts/cron_scripts/env-environment; sed -i '/LESSOPEN/d' $HOME/scripts/cron_scripts/env-environment\""
-#1762878278
-exit
-#1762878263
-bash
-#1762878280
-exit
-#1762878470
-#!/bin/bash -i
-#1762878470
-# This is call on startup from .config/autostart to create an env file to use for cron scripts to be able to run cron jobs in an open terminal.
-#1762878470
-sleep 55
-#1762878525
-mate-terminal -e "bash -c \"source ~/.bashrc; env > $HOME/scripts/cron_scripts/env-environment; sed -i '/LESSCLOSE/d' $HOME/scripts/cron_scripts/env-environment; sed -i '/LESSOPEN/d' $HOME/scripts/cron_scripts/env-environment\""
-ls
-exit
-#1762882771
-sudo apt update
-#1762882782
-exit
-#1762882759
-bash
-#1762882784
-exit
-sudo apt install rustdesk
-ufw allow 21114:21119/tcp
-sudo ufw allow 21114:21119/tcp
-sudo ufw allow 21116/udp
-sudo ufw enable
-cd Downloads
-wget https://raw.githubusercontent.com/techahold/rustdeskinstall/master/install.sh
-chmod +x install.sh
-./install.sh
-#1762957794
-detach caja
-#1762957801
-detach nemo
-#1762957805
-caja
-#1762957880
-lightdm
-#1762957887
-sudo lightdm
-#1762957933
-mate-desktop
-#1762957938
-sudo sddm
-#1762958025
-rustdesk
-ifconfig
-cd Downloads
-ls
-./install.sh
-gufw
-sudo apt install xserver-xorg-video-dummy
-./install.sh
-#!/bin/bash -i
-# This is call on startup from .config/autostart to create an env file to use for cron scripts to be able to run cron jobs in an open terminal.
-sleep 55
-mate-terminal -e "bash -c \"source ~/.bashrc; env > $HOME/scripts/cron_scripts/env-environment; sed -i '/LESSCLOSE/d' $HOME/scripts/cron_scripts/env-environment; sed -i '/LESSOPEN/d' $HOME/scripts/cron_scripts/env-environment\""
-#1762960868
-exit
-#1762961177
-#!/bin/bash -i
-#1762961177
-# This is call on startup from .config/autostart to create an env file to use for cron scripts to be able to run cron jobs in an open terminal.
-#1762961177
-sleep 55
-#1762961232
-mate-terminal -e "bash -c \"source ~/.bashrc; env > $HOME/scripts/cron_scripts/env-environment; sed -i '/LESSCLOSE/d' $HOME/scripts/cron_scripts/env-environment; sed -i '/LESSOPEN/d' $HOME/scripts/cron_scripts/env-environment\""
-#1762961280
-exit
-#1762961742
-exit
-#1762962899
-exit
-#1762963263
-exit
-#1762963736
-exit
-#1762964016
-exit
-#1762964060
-exit
-#1762964206
-exit
-ufw enable
-sudo ufw enable
-sudo gufw
-dpkg-reconfigure openssh-server
-sudo dpkg-reconfigure openssh-server
-sudo systemctl restart sshd
-sudo systemctl restart sshd.service
-systemctl status ssh.service
-systemctl status sshd.service
-sudo systemctl restart ssh.service
-sudo systemctl restart sshd
-sudo systemctl restart ssh
-journalctl -xeu ssh.service
-sshd
-sudo service ssh restart
-exit
-#!/bin/bash -i
-# This is call on startup from .config/autostart to create an env file to use for cron scripts to be able to run cron jobs in an open terminal.
-sleep 55
-mate-terminal -e "bash -c \"source ~/.bashrc; env > $HOME/scripts/cron_scripts/env-environment; sed -i '/LESSCLOSE/d' $HOME/scripts/cron_scripts/env-environment; sed -i '/LESSOPEN/d' $HOME/scripts/cron_scripts/env-environment\""
-#1762964757
-#!/bin/bash -i
-#1762964757
-# This is call on startup from .config/autostart to create an env file to use for cron scripts to be able to run cron jobs in an open terminal.
-#1762964757
-sleep 55
-#1762964812
-mate-terminal -e "bash -c \"source ~/.bashrc; env > $HOME/scripts/cron_scripts/env-environment; sed -i '/LESSCLOSE/d' $HOME/scripts/cron_scripts/env-environment; sed -i '/LESSOPEN/d' $HOME/scripts/cron_scripts/env-environment\""
-sudo dpkg-reconfigure openssh-server
-sudo systemctl restart sshd
-sudo dpkg-reconfigure openssh-server
-sudo systemctl start sshd
-sudo systemctl stop sshd
-sudo dpkg-reconfigure openssh-server
-sudo systemctl start sshd
-sudo apt install --reinstall openssh-server
-sudo dpkg-reconfigure openssh-server
-sudo systemctl ssh.socket
-sudo systemctl start ssh.socket
-sudo systemctl enable sshd
-sudo systemctl enable ssh.socket
-sudo systemctl enable sshd
-sudo systemctl start ssh.socket
-sudo dpkg-reconfigure openssh-server
-sudo apt purge openssh-server
-sudo apt install openssh-server
-sudo systemctl restart sshd
-cd Downloads
-ls
-sudo dpkg -i anydesk_7.1.1-1_amd64.deb 
-sudo ufw allow ssh
-ssh-keygen -t rsa -b 4096
-sudo ufw allow ssh
-sudo dpkg-reconfigure openssh-server
-ssh-keygen -t rsa -b 4096
-git-update
-sudo apt purge openssh-server
-sudo apt install openssh-server
-sudo systemctl enable sshd
-sudo systemctl start sshd
-ssh-keygen -t rsa -b 4096
-netstat -anp
-sudo ufw allow 314
-sudo gufw
-netstat -anp
-#!/bin/bash -i
-# This is call on startup from .config/autostart to create an env file to use for cron scripts to be able to run cron jobs in an open terminal.
-sleep 55
-mate-terminal -e "bash -c \"source ~/.bashrc; env > $HOME/scripts/cron_scripts/env-environment; sed -i '/LESSCLOSE/d' $HOME/scripts/cron_scripts/env-environment; sed -i '/LESSOPEN/d' $HOME/scripts/cron_scripts/env-environment\""
-#1762969398
-exit
-#1762969610
-bash
-#1762969624
-exit
-#1762969604
-bash
-#1762969626
-exit
-#1762969669
-exit
-#1762969694
-exit
-#1762969713
-exit
-#1762969750
-exit
-#1762969838
-exit
-#1762969876
-exit
-#1762969906
-exit
-#1762969937
-exit
-#1762970464
-bash
-#1762970476
-exit
-#1762970600
-bash
-#1762970610
-exit
-sudo systemctl restart sshd
-netstat -anp
-sudo systemctl restart sshd
-ssh-keygen -t rsa -b 4096
-sudo rm -rf /etc/ssh/ssh-hosts-bk.tar.gz
-sudo systemctl restart sshd
-sudo systemctl restart sshd.service
-#!/bin/bash -i
-# This is call on startup from .config/autostart to create an env file to use for cron scripts to be able to run cron jobs in an open terminal.
-sleep 55
-mate-terminal -e "bash -c \"source ~/.bashrc; env > $HOME/scripts/cron_scripts/env-environment; sed -i '/LESSCLOSE/d' $HOME/scripts/cron_scripts/env-environment; sed -i '/LESSOPEN/d' $HOME/scripts/cron_scripts/env-environment\""
-#1762977025
-#!/bin/bash -i
-#1762977025
-# This is call on startup from .config/autostart to create an env file to use for cron scripts to be able to run cron jobs in an open terminal.
-#1762977025
-sleep 55
-#1762977080
-mate-terminal -e "bash -c \"source ~/.bashrc; env > $HOME/scripts/cron_scripts/env-environment; sed -i '/LESSCLOSE/d' $HOME/scripts/cron_scripts/env-environment; sed -i '/LESSOPEN/d' $HOME/scripts/cron_scripts/env-environment\""
-#!/bin/bash -i
-# This is call on startup from .config/autostart to create an env file to use for cron scripts to be able to run cron jobs in an open terminal.
-sleep 55
-mate-terminal -e "bash -c \"source ~/.bashrc; env > $HOME/scripts/cron_scripts/env-environment; sed -i '/LESSCLOSE/d' $HOME/scripts/cron_scripts/env-environment; sed -i '/LESSOPEN/d' $HOME/scripts/cron_scripts/env-environment\""
-ufw allow 60314:60316
-sudo ufw allow 60314:60316
-sudo ufw allow 60314:60316/tcp
-sudo ufw allow 60314:60316/udp
-ufw --help
-ufw app list
-sudo ufw app list
-ufw app list
-ufw --help
-sudo ufw status
-sudo gufw
-sudo ufw allow 314:316/udp
-sudo ufw allow 314:316/tcp
-sudo ufw allow 880:882/tcp
-sudo ufw allow 880:882/udp
-sudo ufw allow 31400:31402/tcp
-sudo ufw allow 31400:31402/udp
-sudo ufw status
-sudo ufw --help
-sudo ufw reload
-sudo gufw
-sudo subl /etc/ssh/sshd_conf
-sudo subl /etc/ssh/sshd_config
-sudo systemctl restart sshd
-sudo dpkg-reconfigure openssh-server
-systemctl status
-systemctl
-systemctl status
-sudo systemctl status ssh.service
-sudo mkdir -p /etc/systemd/system/ssh.service.d
-sudo touch /etc/systemd/system/ssh.service.d/limits.conf
-sudo
-sudo systemctl daemon-reload
-sudo systemctl restart sshd
-sudo systemctl restart ssh.service
-sudo systemctl show ssh.service
-sudo systemctl show ssh.service | grep "LimitNOFILE"
-sudo systemctl status sshd
-sudo systemctl daemon-reload
-sudo systemctl start xrdp.service
-sudo systemctl start snort.service
-sudo systemctl enable xrdp.service
-sudo systemctl start xrdp.service
-sudo systemctl enable snort.service
-sudo systemctl enable ssh.service
-sudo systemctl start ssh.service
-sudo subl /etc/ssh/sshd_config
-sudo apt purge openssh-server; sudo apt install openssh-server
-sudo subl /etc/ssh/sshd_config
-sudo systemctl enable sshd
-sudo systemctl restart sshd
-sudo systemctl status sshd
-sudo systemctl restart sshd
-sudo systemctl status sshd
-sudo systemctl restart sshd
-sudo systemctl enable sshd
-sudo systemctl restart sshd
-ssh-keygen -t rsa -b 4096
-sudo systemctl restart sshd
-#!/bin/bash -i
-# This is call on startup from .config/autostart to create an env file to use for cron scripts to be able to run cron jobs in an open terminal.
-sleep 55
-mate-terminal -e "bash -c \"source ~/.bashrc; env > $HOME/scripts/cron_scripts/env-environment; sed -i '/LESSCLOSE/d' $HOME/scripts/cron_scripts/env-environment; sed -i '/LESSOPEN/d' $HOME/scripts/cron_scripts/env-environment\""
-#1762981423
-exit
-#1762981830
-exit
-#1762981919
-exit
-#1762982291
-exit
-#1762982698
-exit
-#1762982954
-exit
-#1762983181
-exit
-#1762984542
-#!/bin/bash -i
-#1762984542
-# This is call on startup from .config/autostart to create an env file to use for cron scripts to be able to run cron jobs in an open terminal.
-#1762984542
-sleep 55
-#1762984597
-mate-terminal -e "bash -c \"source ~/.bashrc; env > $HOME/scripts/cron_scripts/env-environment; sed -i '/LESSCLOSE/d' $HOME/scripts/cron_scripts/env-environment; sed -i '/LESSOPEN/d' $HOME/scripts/cron_scripts/env-environment\""
-#!/bin/bash -i
-# This is call on startup from .config/autostart to create an env file to use for cron scripts to be able to run cron jobs in an open terminal.
-sleep 55
-mate-terminal -e "bash -c \"source ~/.bashrc; env > $HOME/scripts/cron_scripts/env-environment; sed -i '/LESSCLOSE/d' $HOME/scripts/cron_scripts/env-environment; sed -i '/LESSOPEN/d' $HOME/scripts/cron_scripts/env-environment\""
-#1762985684
-#!/bin/bash -i
-#1762985684
-# This is call on startup from .config/autostart to create an env file to use for cron scripts to be able to run cron jobs in an open terminal.
-#1762985684
-sleep 55
-#1762985739
-mate-terminal -e "bash -c \"source ~/.bashrc; env > $HOME/scripts/cron_scripts/env-environment; sed -i '/LESSCLOSE/d' $HOME/scripts/cron_scripts/env-environment; sed -i '/LESSOPEN/d' $HOME/scripts/cron_scripts/env-environment\""
-#1762985829
-sudo enable xrdp
-#1762985840
-sudo systemctl enable xrdp
-#1762985844
-exit
-sudo systemclt start xrdp
-sudo systemctl start xrdp
-sudo systemctl restart xrdp
-#1762986049
-exit
-#!/bin/bash -i
-# This is call on startup from .config/autostart to create an env file to use for cron scripts to be able to run cron jobs in an open terminal.
-sleep 55
-mate-terminal -e "bash -c \"source ~/.bashrc; env > $HOME/scripts/cron_scripts/env-environment; sed -i '/LESSCLOSE/d' $HOME/scripts/cron_scripts/env-environment; sed -i '/LESSOPEN/d' $HOME/scripts/cron_scripts/env-environment\""
-#1762986028
-#!/bin/bash -i
-#1762986028
-# This is call on startup from .config/autostart to create an env file to use for cron scripts to be able to run cron jobs in an open terminal.
-#1762986028
-sleep 55
-#1762986083
-mate-terminal -e "bash -c \"source ~/.bashrc; env > $HOME/scripts/cron_scripts/env-environment; sed -i '/LESSCLOSE/d' $HOME/scripts/cron_scripts/env-environment; sed -i '/LESSOPEN/d' $HOME/scripts/cron_scripts/env-environment\""
-#1763129559
-exit
-linux-update
-linux-wsl-update-run
-linux-update
-sudo apt upgrade gedit-common
-sudo apt upgrade eom eom-common
-sudo apt upgrade mutter
-sudo apt purge eom gedit mutter
-sudo apt update
-sudo apt upgrade
-linux-update
-sudo apt upgrade
-sudo apt purge mutter-common
-pluma
-gedit
-sudo apt install gedit mutter eom
-linux-update
-subl-update
-sudo apt search rust
-sudo apt install rust
-sudo apt install rust-all
-linux-update
-sudo apt upgrade gedit
-sudo aptitude upgrade gedit
-sudo apt upgrade -f
-sudo apt upgrade gedit -f
-#!/bin/bash -i
-# This is call on startup from .config/autostart to create an env file to use for cron scripts to be able to run cron jobs in an open terminal.
-sleep 55
-mate-terminal -e "bash -c \"source ~/.bashrc; env > $HOME/scripts/cron_scripts/env-environment; sed -i '/LESSCLOSE/d' $HOME/scripts/cron_scripts/env-environment; sed -i '/LESSOPEN/d' $HOME/scripts/cron_scripts/env-environment\""
-mate-control-center
-kvantummanager
-which kvantum
-sudo apt serach kvantum
-sudo apt search kvantum
-sudo apt purge kvantum
-which materia-kde
-which materia-kde | grep installed
-sudo apt search kvantum | grep installed
-sudo apt purge *kvantum*
-sudo apt purge materia-gtk-theme
-sudo apt purge materia-kde
-#1763229571
-exit
-#1763242701
-exit
-sudo systemctl restart sshd
-iptables
-iptables -h
-sudo ufw allow 316/tcp
-sudo ufw allow 316/udp
-sudo ufw reload
-sudo ufw enable
-sudo ufw status
-sudo netstat -tuln | grep 316
-sudo netstat -tuln | grep 314
-cd live-build
-lb config
-lb config --debian-installer netinst
-lb config --debian-installer-gui true
-lb config --debian-installer-distribution testing
-lb config --initramfs live-boot
-lb config --interactive true
-lb config --system live
-./lb_config
-lb clean
-sudo lb clean
-lb build
-sudo lb build
-sudo lb clean
-./lb_config
-sudo lb build
-sudo update-grub
-sudo apt install pika
-sudo apt install pika-backup
-sudo apt search pika
-sudo apt install flatpak
-flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
-flatpak install flathub org.gnome.World.PikaBackup
-flatpak --help
-flatpak list
-flatpak unistall org.gnome.World.PikaBackup
-flatpak uninstall org.gnome.World.PikaBackup
-flatpak list
-flatpak update
-flatpak update --help
-flatpak update system
-flatpak update --system
-sudo apt install refractashapshot refractainstaller
-sudo apt search refracta
-apt search cubic
-apt search refract
-apt search live-build
-sudo apt install live-build live-clone
-live-build
-live-build lb-config
-lb config
-lb --help
-live-build
-lb build
-sudo lb build
-cd live-build
-lb config --help
-live-build
-lb
-lb -u
-lb --usage
-cd live-build
-./lb_config 
-#!/bin/bash -i
-# This is call on startup from .config/autostart to create an env file to use for cron scripts to be able to run cron jobs in an open terminal.
-sleep 55
-mate-terminal -e "bash -c \"source ~/.bashrc; env > $HOME/scripts/cron_scripts/env-environment; sed -i '/LESSCLOSE/d' $HOME/scripts/cron_scripts/env-environment; sed -i '/LESSOPEN/d' $HOME/scripts/cron_scripts/env-environment\""
-lsblk
-lsblk
-#!/bin/bash -i
-# This is call on startup from .config/autostart to create an env file to use for cron scripts to be able to run cron jobs in an open terminal.
-sleep 55
-mate-terminal -e "bash -c \"source ~/.bashrc; env > $HOME/scripts/cron_scripts/env-environment; sed -i '/LESSCLOSE/d' $HOME/scripts/cron_scripts/env-environment; sed -i '/LESSOPEN/d' $HOME/scripts/cron_scripts/env-environment\""
-lsblk
-subl /etc/fstab
-sudo mount --mkdir /dev/sda4 /mnt/test/
-ls /mnt/test
-ls
-sudo update-grub
-#!/bin/bash -i
-# This is call on startup from .config/autostart to create an env file to use for cron scripts to be able to run cron jobs in an open terminal.
-sleep 55
-mate-terminal -e "bash -c \"source ~/.bashrc; env > $HOME/scripts/cron_scripts/env-environment; sed -i '/LESSCLOSE/d' $HOME/scripts/cron_scripts/env-environment; sed -i '/LESSOPEN/d' $HOME/scripts/cron_scripts/env-environment\""
-crontab -e
-#1763259463
-bash
-#!/bin/bash -i
-# This is call on startup from .config/autostart to create an env file to use for cron scripts to be able to run cron jobs in an open terminal.
-sleep 55
-mate-terminal -e "bash -c \"source ~/.bashrc; env > $HOME/scripts/cron_scripts/env-environment; sed -i '/LESSCLOSE/d' $HOME/scripts/cron_scripts/env-environment; sed -i '/LESSOPEN/d' $HOME/scripts/cron_scripts/env-environment\""
-#!/bin/bash -i
-# This is call on startup from .config/autostart to create an env file to use for cron scripts to be able to run cron jobs in an open terminal.
-sleep 55
-mate-terminal -e "bash -c \"source ~/.bashrc; env > $HOME/scripts/cron_scripts/env-environment; sed -i '/LESSCLOSE/d' $HOME/scripts/cron_scripts/env-environment; sed -i '/LESSOPEN/d' $HOME/scripts/cron_scripts/env-environment\""
-#!/bin/bash -i
-# This is call on startup from .config/autostart to create an env file to use for cron scripts to be able to run cron jobs in an open terminal.
-sleep 55
-mate-terminal -e "bash -c \"source ~/.bashrc; env > $HOME/scripts/cron_scripts/env-environment; sed -i '/LESSCLOSE/d' $HOME/scripts/cron_scripts/env-environment; sed -i '/LESSOPEN/d' $HOME/scripts/cron_scripts/env-environment\""
-live-build
-live-config
-live-boot
-cd live-build
-sudo mount --mkdir /dev/sda4 /mnt/test/
-lb config --help
-live-build man
-man live-build
-sudo apt install live-boot
-sudo apt install live-config
-lb config --help
-sudo apt install live-tools
-cd live-build
-./lb_config 
-sudo lb build
-apt search xserver | grep installed
-./lb_config 
-sudo lb build
-qemu
-apt search qemu
-sudo apt install qemu
-sudo apt install qemu-system
-cd Downloads
-ls
-qemu-system-x86_64 -enable-kvm -m 4G -cdrom debian-live-13.2.0-amd64-mate.iso 
-sudo grub-update
-sudo update-grub
-#!/bin/bash -i
-# This is call on startup from .config/autostart to create an env file to use for cron scripts to be able to run cron jobs in an open terminal.
-sleep 55
-mate-terminal -e "bash -c \"source ~/.bashrc; env > $HOME/scripts/cron_scripts/env-environment; sed -i '/LESSCLOSE/d' $HOME/scripts/cron_scripts/env-environment; sed -i '/LESSOPEN/d' $HOME/scripts/cron_scripts/env-environment\""
 #1763267265
 exit
 sudo mount --mkdir /dev/sda4 /mnt/test/
@@ -969,6 +347,281 @@ sudo mount /dev/sda3 /boot
 systemctl daemon-reload
 sudo mount /dev/sda3 /boot
 dropbox autostart -y
+#!/bin/bash -i
+# This is call on startup from .config/autostart to create an env file to use for cron scripts to be able to run cron jobs in an open terminal.
+sleep 55
+mate-terminal -e "bash -c \"source ~/.bashrc; env > $HOME/scripts/cron_scripts/env-environment; sed -i '/LESSCLOSE/d' $HOME/scripts/cron_scripts/env-environment; sed -i '/LESSOPEN/d' $HOME/scripts/cron_scripts/env-environment\""
+cd MSI_live-build/
+git init
+git add --all
+git commit -m 'reset'
+git remote add origin https://github.com/msifland/MSI_live-build.git
+git remove -v
+git remote -v
+git push -u origin master
+git branch -M main
+git push -u origin main
+git branch -m master
+git push -u origin master
+linux-update
+msi-live-build 
+debian-install
+sudo debian-install
+#!/bin/bash -i
+# This is call on startup from .config/autostart to create an env file to use for cron scripts to be able to run cron jobs in an open terminal.
+sleep 55
+mate-terminal -e "bash -c \"source ~/.bashrc; env > $HOME/scripts/cron_scripts/env-environment; sed -i '/LESSCLOSE/d' $HOME/scripts/cron_scripts/env-environment; sed -i '/LESSOPEN/d' $HOME/scripts/cron_scripts/env-environment\""
+sudo cp /etc/apt/sources.list.d/debian.sources /mnt/deb-inst/etc/apt/sources.list.d/
+locale-gen
+sudo locale-gen
+echo $E2FSPROGS_UNDO_DIR
+ls /boot
+linux-update
+sudo apt update
+linux-update
+sudo apt install gparted
+sudo gparted
+sudo umount -f /home
+sudo apt install warp
+warp-gtk 
+sudo apt purge warp
+apt search warp
+apt search warp-term
+sudo apt install warp
+resize2fs --help
+man resize2fs
+sudo resize2fs -f -P -p /dev/sda2 700G
+sudo resize2fs -f -P -p /dev/sda2 70G
+sudo resize2fs -f -P -p /dev/sda2 750G
+sudo umount -f /home
+lsblk -fs
+man resize2fs
+resize2fs device --help
+sudo gparted
+sudo update-grub
+exit
+sudo update-grub
+lsblk -fs
+exit
+#!/bin/bash -i
+# This is call on startup from .config/autostart to create an env file to use for cron scripts to be able to run cron jobs in an open terminal.
+sleep 55
+mate-terminal -e "bash -c \"source ~/.bashrc; env > $HOME/scripts/cron_scripts/env-environment; sed -i '/LESSCLOSE/d' $HOME/scripts/cron_scripts/env-environment; sed -i '/LESSOPEN/d' $HOME/scripts/cron_scripts/env-environment\""
+sudo umount /dev/sda4
+sudo calamares
+python apt-update.py 
+cfdisk
+sudo cfdisk
+sudo gparted
+sudo debian-install
+ls /boot/grub
+ls /boot
+cd /boot
+ls
+cd grub
+ls
+subl /etc/default/grub 
+sudo subl /etc/default/grub 
+sudo update-grub
+sudo chroot /mnt/deb-inst /bin/sh
+sudo chroot /mnt/deb-inst
+sudo mount /dev/sda4 /mnt/deb-inst/
+sudo chroot /mnt/deb-inst /bin/sh
+exit
+linux-update
+cd Projects
+cd Python
+ls
+sudo apt purge python2
+python apt-update.py
+which python
+sudo apt install python3
+python apt-update.py
+python3 apt-update.py
+bash
+exit
+python ex1.py
+python first_script.py 
+lsblk -fs
+subl /etc/fstab
+subl /etc/grub.d/40_custom.bak
+subl /boot/grub/grub.cfg 
+subl /etc/fstab
+sudo chroot /mnt/deb-inst/
+exit
+sudo chroot /mnt/deb-inst/
+exit
+sudo chown -R msifland:msifland /mnt/deb-inst/home/msifland
+exit
+linux-update
+sudo update-grub
+sudo shutdown -r now
+exit
+grub-install /dev/sda
+exit
+sudo install-grub /dev/sda
+sudo apt update
+sudo apt install linux-base linux-core
+sudo apt install linux
+sudo apt install linux-base
+sudo grub-install /dev/sda
+sudo apt install linux-image-amd64 linux-header-amd64
+sudo apt install linux-image-amd64 linux-headers-amd64
+sudo apt install dpkg
+sudo apt install dpkg --reintstall
+sudo apt install --reinstall dpkg
+sudo dpkg-statoverride
+sudo dpkg-statoverride --help
+sudo apt purge dkpg
+sudo apt purge dpkg
+sudo apt purge dpkg -f
+su
+sudo dpk --reconfigure -a
+sudo dpkg --reconfigure -a
+sudo apt --reconfigure -a
+sudo apt --help
+apt reconfiure --help
+dpkg --reconfigure --help
+sudo dpkg --reconfigure
+sudo apt install --reinstall linux-base
+sudo rm /var/lib/dpkg/statoverride
+sudo rm /var/lib/dpkg/lock
+sudo dpkg --configure -a
+sudo apt -f install
+sudo apt install --reinstall dpkg
+sudo apt install makedev
+apt search makedev
+sudo apt install linux-image-amd64 linux-headers-amd64
+ls
+su -
+#1763659106
+lightdm
+#1763659110
+sudo lightdm
+#1763659172
+sudo apt install lightdm
+#1763659189
+sudo apt install ==reinstall lightdm
+#1763659200
+sudo apt install --reinstall lightdm
+#1763659241
+sudo lightdm
+#1763659264
+sudo shutdown -r now
+#!/bin/bash -i
+# This is call on startup from .config/autostart to create an env file to use for cron scripts to be able to run cron jobs in an open terminal.
+sleep 55
+mate-terminal -e "bash -c \"source ~/.bashrc; env > $HOME/scripts/cron_scripts/env-environment; sed -i '/LESSCLOSE/d' $HOME/scripts/cron_scripts/env-environment; sed -i '/LESSOPEN/d' $HOME/scripts/cron_scripts/env-environment\""
+sudo apt update
+sudoers-custom
+sudo apt update
+blesh-install
+detach-install
+google-chrome-latest-install 
+kali-repo-install 
+lightdm-setup-and-autologon 
+sudo lightdm-setup-and-autologon 
+now
+exit
+#!/bin/bash -i
+# This is call on startup from .config/autostart to create an env file to use for cron scripts to be able to run cron jobs in an open terminal.
+sleep 55
+mate-terminal -e "bash -c \"source ~/.bashrc; env > $HOME/scripts/cron_scripts/env-environment; sed -i '/LESSCLOSE/d' $HOME/scripts/cron_scripts/env-environment; sed -i '/LESSOPEN/d' $HOME/scripts/cron_scripts/env-environment\""
+sudo update-grub
+screenfetch-update
+subl-update
+sudo shutdown -r now
+#1763668801
+sudo lighdm
+#1763668809
+sudo lightdm
+#1763668827
+sudo shutdown -r now
+#1763668832
+exit
+#1763668936
+ls
+#1763668939
+cd /
+#1763668940
+ls
+#1763668953
+lightdm
+#1763668972
+ls /boot
+#1763668984
+update-grub
+#1763668993
+ls /home/msifland
+#1763668999
+su -
+#1763669011
+bash
+sudo grub-install /dev/sda
+sudo update-grub
+sudo apt install linux-image-amd64
+sudo apt purge linux-image-amd64
+sudo update-grub
+sudo apt install linux-image-amd64
+sudo update-grub
+grub-mkconfig --help
+sudo apt install --reinstall linux-image-amd64
+sudo update-grub
+apt list --installed | grep linux-image
+sudo apt purge "linux-image*"
+apt list --installed | grep linux-image
+sudo apt install initramfs-tools
+sudo apt autoremove
+sudo apt install --reinstall initramfs-tools
+sudo apt install linux-image-amd64
+apt searhc /stable linux-image
+apt search /stable linux-image
+apt search linux-image
+sudo apt install linux-image-6.12.57+deb13-amd64
+sudo apt install linux-headers-6.12.57+deb13-amd64 linux-headers-amd64
+sudo update-grub
+exit
+#!/bin/bash -i
+# This is call on startup from .config/autostart to create an env file to use for cron scripts to be able to run cron jobs in an open terminal.
+sleep 55
+mate-terminal -e "bash -c \"source ~/.bashrc; env > $HOME/scripts/cron_scripts/env-environment; sed -i '/LESSCLOSE/d' $HOME/scripts/cron_scripts/env-environment; sed -i '/LESSOPEN/d' $HOME/scripts/cron_scripts/env-environment\""
+dpkg --get-selections | awk '{print $1}' | grep -x "conky"
+dpkg --get-selections | awk '{print $1}' | grep -q "conky"
+sudo update-grub
+subl /etc/grub.d/40_custom 
+trash-empty
+trash-root-empty
+linux-update
+wget https://mega.nz/linux/repo/xUbuntu_23.04/amd64/megasync-xUbuntu_23.04_amd64.deb && sudo apt install "$PWD/megasync-xUbuntu_23.04_amd64.deb"
+wget https://mega.nz/linux/repo/xUbuntu_23.04/amd64/megasync-xUbuntu_23.04_amd64.deb
+cd Downloads
+wget https://mega.nz/linux/repo/Debian_13/amd64/megasync-Debian_13_amd64.deb
+sudo dpkg -i megasync-Debian_13_amd64.deb 
+sudo apt install libqt5quickwidgets5
+sudo apt --fix-broken install
+sudo dpkg -i megasync-Debian_13_amd64.deb 
+sudo dpkg -i anydesk_7.1.1-1_amd64.deb 
+wget https://mega.nz/linux/repo/xUbuntu_23.04/amd64/megasync-xUbuntu_23.04_amd64.deb && sudo apt install "$PWD/megasync-xUbuntu_23.04_amd64.deb"
+wget https://mega.nz/linux/repo/xUbuntu_23.04/amd64/megasync-xUbuntu_23.04_amd64.deb
+cd Downloads
+wget https://mega.nz/linux/repo/Debian_13/amd64/megasync-Debian_13_amd64.deb
+sudo dpkg -i megasync-Debian_13_amd64.deb 
+sudo apt install libqt5quickwidgets5
+sudo apt --fix-broken install
+sudo dpkg -i megasync-Debian_13_amd64.deb 
+sudo dpkg -i anydesk_7.1.1-1_amd64.deb 
+apt search mega
+cd Downloads && wget -O - "https://www.dropbox.com/download?plat=lnx.x86_64" | tar xzf -
+ls
+ls -a
+./.dropbox-dist/dropboxd 
+sudo dpkg -i dropbox_2025.05.20_amd64.deb 
+sudo apt install -f
+dropbox autostart -y
+dropbox start
+dropbox --help
+dropbox status
+sudo shutdown -r now
 #!/bin/bash -i
 # This is call on startup from .config/autostart to create an env file to use for cron scripts to be able to run cron jobs in an open terminal.
 sleep 55

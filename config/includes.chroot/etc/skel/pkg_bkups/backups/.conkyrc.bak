@@ -101,19 +101,19 @@ ${if_mounted /boot}${goto 5}${voffset 18}${color}${font sans:bold:size=9.5}boot:
 ${fs_bar /boot}${endif}
 ${color2}${hr 2}
 ${color}${font sans:bold:size=9}NETWORK DATA
-${color}${font sans:bold:size=9}Interal IP: ${color2}${addr  wlan0
- wlan0}
+${color}${font sans:bold:size=9}Interal IP: ${color2}${addr  wlp3s0
+ wlp3s0}
 ${color}External IP: ${color2}${execi 3600 curl -s checkip.dyndns.org | sed -e 's/.*Current IP Address: //' -e 's/<.*$//'}
-${color}${font sans:size=9}Network Adapter: ${color2}${texeci 36000 echo $(ip link show | grep "state UP" | cut -d':' -f2 | sed 's#:##')}${if_existing .conky_has_wireless}${goto 5}${voffset 13}${color}Wireless Network: ${color2}${wireless_essid  wlan0
- wlan0}${endif} \
-${if_existing .conky_has_wireless}${goto 5}${voffset 13}${color}WiFi Signal Strength: ${color2}${wireless_link_qual_perc  wlan0
- wlan0}%${endif} \
-${goto 5}${voffset 13}${color}Dnload Speed: ${color2}${downspeed  wlan0
- wlan0}/s
-${color2}${downspeedgraph  wlan0
- wlan0 28,255 ${color2} ${color3}}
-${color}Upload Speed: ${color2}${upspeed  wlan0
- wlan0}/s${color2}
-${upspeedgraph  wlan0
- wlan0 28,255 ${color2} ${color3}}
+${color}${font sans:size=9}Network Adapter: ${color2}${texeci 36000 echo $(ip link show | grep "state UP" | cut -d':' -f2 | sed 's#:##')}${if_existing .conky_has_wireless}${goto 5}${voffset 13}${color}Wireless Network: ${color2}${wireless_essid  wlp3s0
+ wlp3s0}${endif} \
+${if_existing .conky_has_wireless}${goto 5}${voffset 13}${color}WiFi Signal Strength: ${color2}${wireless_link_qual_perc  wlp3s0
+ wlp3s0}%${endif} \
+${goto 5}${voffset 13}${color}Dnload Speed: ${color2}${downspeed  wlp3s0
+ wlp3s0}/s
+${color2}${downspeedgraph  wlp3s0
+ wlp3s0 28,255 ${color2} ${color3}}
+${color}Upload Speed: ${color2}${upspeed  wlp3s0
+ wlp3s0}/s${color2}
+${upspeedgraph  wlp3s0
+ wlp3s0 28,255 ${color2} ${color3}}
 ]]

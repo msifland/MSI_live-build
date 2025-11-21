@@ -479,6 +479,7 @@ golang-any:amd64
 golang-go:amd64
 golang-src
 google-chrome-stable
+gparted
 gparted-common
 gpg
 gpg-agent
@@ -506,6 +507,7 @@ gsfonts
 gstreamer1.0-clutter-3.0:amd64
 gstreamer1.0-gl:amd64
 gstreamer1.0-gtk3:amd64
+gstreamer1.0-gtk4:amd64
 gstreamer1.0-libav:amd64
 gstreamer1.0-pipewire:amd64
 gstreamer1.0-plugins-bad:amd64
@@ -1821,6 +1823,7 @@ libparams-classify-perl:amd64
 libparams-util-perl
 libparams-validationcompiler-perl
 libparse-recdescent-perl
+libparted-fs-resize0t64:amd64
 libparted2t64:amd64
 libpassim1:amd64
 libpathplan4:amd64
@@ -3688,6 +3691,7 @@ vlc-plugin-video-splitter:amd64
 vlc-plugin-visualization:amd64
 vulkan-tools
 wamerican
+warp
 wayland-protocols
 webp-pixbuf-loader:amd64
 wget
