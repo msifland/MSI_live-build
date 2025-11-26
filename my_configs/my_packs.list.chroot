@@ -1,13 +1,35 @@
+<<<<<<< HEAD
 amd64-microcode
 automake
 bash
 bash-completion
+=======
+acpi
+acpid
+acpi-support
+aircrack-ng
+amd64-microcode
+anacron
+apmd
+aptitude
+automake
+avahi-autoipd
+bash
+bash-completion
+bluetooth
+>>>>>>> 8f833b6 (reset)
 btrfs-progs
 calamares
 calamares-settings-debian
 chromium
 cmake
+<<<<<<< HEAD
 coreutils
+=======
+conky-all
+coreutils
+cpufrequtils
+>>>>>>> 8f833b6 (reset)
 curl
 debian-installer
 debian-installer-launcher
@@ -21,7 +43,10 @@ engrampa-common
 f2fs-tools
 fakeroot
 fdisk
+<<<<<<< HEAD
 flatpak
+=======
+>>>>>>> 8f833b6 (reset)
 firefox-esr
 firmware-amd-graphics
 firmware-ast
@@ -52,6 +77,10 @@ firmware-realtek
 firmware-siano
 firmware-sof-signed
 firmware-zd1211
+<<<<<<< HEAD
+=======
+flatpak
+>>>>>>> 8f833b6 (reset)
 fstransform
 fwupd
 fwupd-amd64-signed
@@ -61,6 +90,7 @@ gawk
 gcc
 gdisk
 gedit
+<<<<<<< HEAD
 git
 glib-networking
 gpg
@@ -76,16 +106,42 @@ grub-pc-bin
 grub2-common
 gvfs-common
 gzip
+=======
+genisoimage
+git
+glib-networking
+gparted
+gpg
+gpgv
+grep
+grub2-common
+grub-common
+grub-customizer
+grub-efi-amd64
+grub-efi-amd64-bin
+grub-efi-amd64-signed
+grub-efi-amd64-unsigned
+gvfs-common
+gzip
+hdparm
+>>>>>>> 8f833b6 (reset)
 host
 hwdata
 hwinfo
 hwloc
 ifstat
 init
+<<<<<<< HEAD
 init-system-helpers
 initramfs-tools
 initramfs-tools-bin
 initramfs-tools-core
+=======
+initramfs-tools
+initramfs-tools-bin
+initramfs-tools-core
+init-system-helpers
+>>>>>>> 8f833b6 (reset)
 intel-microcode
 iproute2
 iptables
@@ -98,8 +154,13 @@ less
 lightdm
 lightdm-gtk-greeter
 lightdm-settings
+<<<<<<< HEAD
 linux-image-amd64
 linux-headers-amd64
+=======
+linux-headers-amd64
+linux-image-amd64
+>>>>>>> 8f833b6 (reset)
 live-boot
 live-boot-doc
 live-boot-initramfs-tools
@@ -115,8 +176,13 @@ locales
 login
 lshw
 lvm2
+<<<<<<< HEAD
 man
 make
+=======
+make
+man
+>>>>>>> 8f833b6 (reset)
 mate-applet-brisk-menu
 mate-applets
 mate-applets-common
@@ -136,6 +202,7 @@ mate-desktop-environment-extras
 mate-session-manager
 menu
 mesa-libgallium:amd64
+<<<<<<< HEAD
 mesa-libgallium:i386
 mesa-utils
 mesa-utils-bin:amd64
@@ -151,6 +218,20 @@ nemo
 nemo-data
 nemo-fileroller
 net-tools
+=======
+mesa-utils
+mesa-utils-bin:amd64
+mesa-va-drivers:amd64
+mesa-vdpau-drivers:amd64
+mesa-vulkan-drivers:amd64
+mount
+mtools
+nano
+ncal
+nemo
+nemo-data
+nemo-fileroller
+>>>>>>> 8f833b6 (reset)
 netbase
 netcat-openbsd
 netcat-traditional
@@ -158,6 +239,7 @@ nethogs
 netpbm
 netselect
 netselect-apt
+<<<<<<< HEAD
 network-manager
 network-manager-applet
 network-manager-l10n
@@ -169,6 +251,19 @@ network-manager-gnome
 nmap
 nmap-common
 ntfs-3g
+=======
+net-tools
+network-manager
+network-manager-applet
+network-manager-gnome
+network-manager-l10n
+nftables
+nmap
+nmap-common
+nm-connection-editor
+ntfs-3g
+numlockx
+>>>>>>> 8f833b6 (reset)
 openssh-client
 openssh-server
 openssh-sftp-server
@@ -177,12 +272,21 @@ openssl-provider-legacy
 parted
 passwd
 pciutils
+<<<<<<< HEAD
+=======
+pcmciautils
+>>>>>>> 8f833b6 (reset)
 perl
 perl-base
 perl-doc
 perl-openssl-defaults:amd64
 perl-tk
 pluma
+<<<<<<< HEAD
+=======
+pm-utils
+powertop
+>>>>>>> 8f833b6 (reset)
 pv
 qemu-system
 qml-module-qtquick2
@@ -210,22 +314,38 @@ screenfetch
 sddm
 sed
 setserial
+<<<<<<< HEAD
 smartmontools
 snapd
 sudo
 synaptic
 system-tools-backends
+=======
+slick-greeter
+smartmontools
+snapd
+software-properties-common
+sudo
+synaptic
+>>>>>>> 8f833b6 (reset)
 systemd
 systemd-container
 systemd-cryptsetup
 systemd-sysv
 systemd-timesyncd
 systemsettings
+<<<<<<< HEAD
 sysvinit-utils
 t1utils
 tar
 tasksel
 tasksel-data
+=======
+system-tools-backends
+sysvinit-utils
+t1utils
+tar
+>>>>>>> 8f833b6 (reset)
 tcl
 tcl8.6
 tzdata
@@ -234,13 +354,23 @@ ucf
 udev
 udisks2
 ufw
+<<<<<<< HEAD
 util-linux-locales
 uuid-dev:amd64
 uuid-runtime
+=======
+>>>>>>> 8f833b6 (reset)
 usbutils
 user-setup
 util-linux
 util-linux-extra
+<<<<<<< HEAD
+=======
+util-linux-locales
+uuid-dev:amd64
+uuid-runtime
+variety
+>>>>>>> 8f833b6 (reset)
 wget
 whois
 wireless-regdb
@@ -249,14 +379,24 @@ wpagui
 wpasupplicant
 x11-apps
 x11-common
+<<<<<<< HEAD
 x11-session-utils
 x11-utils
 x11-xkb-utils
 x11-xserver-utils
+=======
+>>>>>>> 8f833b6 (reset)
 x11proto-core-dev
 x11proto-dev
 x11proto-record-dev
 x11proto-xext-dev
+<<<<<<< HEAD
+=======
+x11-session-utils
+x11-utils
+x11-xkb-utils
+x11-xserver-utils
+>>>>>>> 8f833b6 (reset)
 xauth
 xbitmaps
 xdg-dbus-proxy
@@ -283,6 +423,10 @@ xorg
 xorg-docs-core
 xorg-sgml-doctools
 xorgxrdp
+<<<<<<< HEAD
+=======
+xorriso
+>>>>>>> 8f833b6 (reset)
 xrdp
 xscreensaver
 xscreensaver-data
@@ -308,6 +452,9 @@ xserver-xorg-video-radeon
 xserver-xorg-video-vesa
 xterm
 zlib1g:amd64
+<<<<<<< HEAD
 zlib1g:i386
+=======
+>>>>>>> 8f833b6 (reset)
 zlib1g-dev:amd64
 zstd
