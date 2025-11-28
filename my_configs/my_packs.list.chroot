@@ -29,6 +29,7 @@ engrampa
 engrampa-common
 f2fs-tools
 fakeroot
+fastfetch
 fdisk
 firefox-esr
 firmware-amd-graphics
@@ -218,7 +219,6 @@ ruby-sdbm:amd64
 ruby-webrick
 ruby-xmlrpc
 screen
-screenfetch
 sddm
 sed
 setserial
