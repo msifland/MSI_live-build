@@ -1,9 +1,6 @@
 #!/bin/sh
-<<<<<<< HEAD
-=======
 set -e
 
->>>>>>> 8f833b6 (reset)
 adduser --disabled-password --gecos "" msifland
 echo "msifland:spike" | chpasswd
 usermod -aG sudo msifland

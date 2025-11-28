@@ -7,10 +7,7 @@ echo "Running my custom lb config and build..."
 echo 'spike' | sudo -S -v
 sleep 1
 
-<<<<<<< HEAD
-=======
 # Full clean of working dir
->>>>>>> 8f833b6 (reset)
 sudo lb clean --all --cache --chroot --binary --purge --remove --stage --source
 
 # Define dirs and clean and create
@@ -27,11 +24,9 @@ fi
 
 cd $RT_DIR
 
-<<<<<<< HEAD
 lb config
 sleep1
 
-=======
 # Create build config
 lb config
 sleep 1
@@ -93,17 +88,17 @@ echo
 echo "Running configs..."
 sleep 1
 # Include debian installers
->>>>>>> 8f833b6 (reset)
+
 lb config --debian-installer netinst
 sleep 1
 lb config --debian-installer-gui true
 sleep 1
 lb config --debian-installer-distribution testing
 sleep 1
-<<<<<<< HEAD
+
 lb config --system live
 sleep 1
-=======
+
 # Distro e.g. testing, stable, unstable
 lb config --distribution testing
 sleep 1
@@ -111,17 +106,14 @@ sleep 1
 lb config --system live
 sleep 1
 # Include firmware, also tied with arhcive-areas for non-free
->>>>>>> 8f833b6 (reset)
+
 lb config --firmware-binary true
 sleep 1
 lb config --firmware-chroot true
 sleep 1
 lb config --image-name MSI_live-image
 sleep 1
-<<<<<<< HEAD
-=======
 # Whether to use security repos
->>>>>>> 8f833b6 (reset)
 lb config --security true
 sleep 1
 lb config --updates true
@@ -130,7 +122,6 @@ lb config --archive-areas "main contrib non-free-firmware non-free"
 sleep 1
 lb config --parent-archive-areas "main contrib non-free-firmware non-free"
 sleep 1
-<<<<<<< HEAD
 lb config --build-with-chroot true
 sleep 1
 lb config --bootappend-live "boot=live components persistence username=msifland"
@@ -171,4 +162,3 @@ lb config --apt-options "--yes --allow-downgrades --allow-remove-essential --all
 sleep 1
 # Kernel params
 lb config --bootappend-live "boot=live components persistence username=msifland"
->>>>>>> 8f833b6 (reset)
