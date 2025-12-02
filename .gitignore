@@ -1,6 +1,7 @@
 *.iso
+/.build/
+/binary/
 /cache/
 /chroot/
-/binary/
 /config/
 /MSI_live-iso
